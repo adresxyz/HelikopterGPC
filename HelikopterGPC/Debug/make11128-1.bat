@@ -1,0 +1,2 @@
+@echo off
+"C:/ti/ccsv5/tools/compiler/c6000_7.4.4/bin/cl6x" --abi=coffabi -O1 -g --include_path="C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include" --include_path="C:/ti/xdais_7_21_01_07/packages/ti/xdais" --include_path="C:/Program Files/C6xCSL/include" --include_path="C:/CCStudio/c6700/dsplib/include" --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="Command_Utility.pp"  "../Command_Utility.c"
