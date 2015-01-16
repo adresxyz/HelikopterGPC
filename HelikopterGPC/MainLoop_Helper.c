@@ -144,9 +144,13 @@ void PrepareGPC() {
 	modelPoziom.nB = 2;
 	modelPoziom.k = 1;
 	modelPoziom.A = (double*) malloc(modelPoziom.nA * sizeof(double));
-	modelPoziom.B = (double*) malloc(
-			(modelPoziom.nB + modelPoziom.k) * sizeof(double));
-
+	if(modelPoziom.A ==0){
+		DSK6713_LED_on(0);
+	}
+	modelPoziom.B = (double*) malloc((modelPoziom.nB + modelPoziom.k) * sizeof(double));
+	if(modelPoziom.B ==0){
+		DSK6713_LED_on(0);
+	}
 	modelPoziom.A[0] = -0.8;
 	modelPoziom.B[0] = 0.6;
 	modelPoziom.B[1] = 0.4;
@@ -174,11 +178,14 @@ void PrepareGPC() {
 	for (k = 0; k < modelPoziom.nA; ++k) {
 		poziom[k] = 0;
 	}
-	double *uPion = (double*) malloc(
-			(modelPion.nB + modelPion.k) * sizeof(double));
-	double *uPoziom = (double*) malloc(
-			(modelPoziom.nB + modelPoziom.k) * sizeof(double));
-
+	double *uPion = (double*) malloc((modelPion.nB + modelPion.k) * sizeof(double));
+	if(uPion==0){
+		DSK6713_LED_on(0);
+	}
+	double *uPoziom = (double*) malloc((modelPoziom.nB + modelPoziom.k) * sizeof(double));
+	if(uPoziom==0){
+		DSK6713_LED_on(0);
+	}
 	for (k = 0; k < modelPion.nB + modelPion.k; ++k) {
 		uPion[k] = 0;
 	}

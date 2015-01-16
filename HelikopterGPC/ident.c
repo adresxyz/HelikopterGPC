@@ -65,10 +65,8 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
 
 
     pushStart(u,idobj->memU,idobj->AB);
-    DUMP(memU);printTable(idobj->memU,idobj->AB);
 
     pushStart(-y,idobj->memY,idobj->AB);
-    DUMP(memY);printTable(idobj->memY,idobj->AB);
 
     for (k = 0; k < idobj->model->nB; ++k) {
         idobj->Phi[k] = idobj->memU[k+idobj->model->k];
@@ -78,8 +76,6 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
     for (i = 0; i < idobj->AB; ++i) {
         Epsilon-= idobj->Theta[i] * idobj->Phi[i];
     }
-    DUMP(Epsilon);printf("\t%f \n",Epsilon);
-    DUMP(P);printMatrix(idobj->P);
 
 
 
@@ -87,7 +83,6 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
     idobj->Sigma = 1000 * sqrt(idobj->Beta*(idobj->Sigma*idobj->Sigma)/(1000000.0) +
                                (1-idobj->Beta) * Epsilon *Epsilon);
 
-    DUMP(sigma);printf("\t%f \n",idobj->Sigma);
 
     /* Mult. of Phi^T * P * Phi*/
 
@@ -100,7 +95,6 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
         temp+=Accum * idobj->Phi[i];
     }
     //idobj->Alpha= 1 - (Epsilon * Epsilon)/(temp * idobj->Sigma);
-    DUMP(alpha);printf("\t%f \n",idobj->Alpha);
 
     idobj->Alpha= 0.95;
     /* Computing k:VectK */
@@ -154,13 +148,11 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
     for ( j = 0; j < idobj->AB; ++j) {
         idobj->Theta[j] += idobj->VectK[j]*Epsilon;
     }
-    DUMP(Theta);printTable(idobj->Theta,idobj->AB);
 
     for (k = 0; k < idobj->model->nA; ++k) {
         idobj->Phi[k+idobj->model->nB] =  idobj->memY[k];
     }
-    DUMP(Phi);printTable(idobj->Phi,idobj->AB);
-	
+
 	ARX* model = idobj->model;
     for (i = 0; i < model->nB; ++i) {
         model->B[i]=idobj->Theta[i];

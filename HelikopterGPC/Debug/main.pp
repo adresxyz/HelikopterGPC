@@ -24,10 +24,10 @@ main.obj: C:/Program\ Files/C6xCSL/include/csl_edma.h
 main.obj: C:/Program\ Files/C6xCSL/include/csl_edmahal.h
 main.obj: C:/Program\ Files/C6xCSL/include/csl_i2c.h
 main.obj: C:/Program\ Files/C6xCSL/include/csl_i2chal.h
-main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_led.h
+main.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h
 main.obj: C:/Program\ Files/C6xCSL/include/csl_emif.h
-main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713.h
-main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_dip.h
+main.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713.h
+main.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h
 main.obj: ../McBSP_Utility.h
 main.obj: ../IRQ_Utility.h
 main.obj: ../EDMA_Utility.h
@@ -38,7 +38,6 @@ main.obj: ../ADC8361.h
 main.obj: ../DAC7716.h
 main.obj: ../enkoder.h
 main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
-main.obj: C:/CCStudio/c6700/dsplib/include/DSPF_dp_mat_mul.h
 main.obj: ../CPLD.h
 main.obj: ../timer.h
 main.obj: ../MainLoop_Helper.h
@@ -67,10 +66,10 @@ C:/Program\ Files/C6xCSL/include/csl_edma.h:
 C:/Program\ Files/C6xCSL/include/csl_edmahal.h: 
 C:/Program\ Files/C6xCSL/include/csl_i2c.h: 
 C:/Program\ Files/C6xCSL/include/csl_i2chal.h: 
-C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_led.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h: 
 C:/Program\ Files/C6xCSL/include/csl_emif.h: 
-C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713.h: 
-C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_dip.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h: 
 ../McBSP_Utility.h: 
 ../IRQ_Utility.h: 
 ../EDMA_Utility.h: 
@@ -81,7 +80,6 @@ C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h:
 ../DAC7716.h: 
 ../enkoder.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 
-C:/CCStudio/c6700/dsplib/include/DSPF_dp_mat_mul.h: 
 ../CPLD.h: 
 ../timer.h: 
 ../MainLoop_Helper.h: 

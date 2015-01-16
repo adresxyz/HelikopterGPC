@@ -39,9 +39,9 @@ MainLoop_Helper.obj: ../lumatrixinv.h
 MainLoop_Helper.obj: ../gpcregler.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
 MainLoop_Helper.obj: ../ident.h
-MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713.h
-MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_dip.h
-MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_led.h
+MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713.h
+MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h
+MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h
 MainLoop_Helper.obj: ../McBSP_Utility.h
 MainLoop_Helper.obj: ../IRQ_Utility.h
 MainLoop_Helper.obj: ../EDMA_Utility.h
@@ -86,9 +86,9 @@ C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/unaccess.h:
 ../gpcregler.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 
 ../ident.h: 
-C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713.h: 
-C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_dip.h: 
-C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/dsk6713_led.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h: 
 ../McBSP_Utility.h: 
 ../IRQ_Utility.h: 
 ../EDMA_Utility.h: 

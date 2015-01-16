@@ -4,32 +4,31 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/c6000_7.4.4
+CG_TOOL_ROOT := c:/ti/ccsv6/tools/compiler/c6000_7.4.11
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
-"./vecs_irq.obj" \
-"./timer.obj" \
-"./main.obj" \
-"./lumatrixinv.obj" \
-"./ident.obj" \
-"./gpcregler.obj" \
-"./enkoder.obj" \
-"./McBSP_Utility.obj" \
-"./MatrixVectorOp.obj" \
-"./MainLoop_Helper.obj" \
-"./IRQ_Utility.obj" \
-"./I2C_Utility.obj" \
-"./EDMA_Utility.obj" \
-"./DAC7716.obj" \
-"./Command_Utility.obj" \
-"./CPLD.obj" \
 "./ADC8361.obj" \
+"./CPLD.obj" \
+"./Command_Utility.obj" \
+"./DAC7716.obj" \
+"./EDMA_Utility.obj" \
+"./I2C_Utility.obj" \
+"./IRQ_Utility.obj" \
+"./MainLoop_Helper.obj" \
+"./MatrixVectorOp.obj" \
+"./McBSP_Utility.obj" \
+"./enkoder.obj" \
+"./gpcregler.obj" \
+"./ident.obj" \
+"./lumatrixinv.obj" \
+"./main.obj" \
+"./timer.obj" \
+"./vecs_irq.obj" \
 "../mcbsp1.cmd" \
--l"C:\ti\ccsv5\tools\compiler\c6000_7.4.4\lib\dsk6713bsl.lib" \
--l"C:\ti\ccsv5\tools\compiler\c6000_7.4.4\lib\csl6713.lib" \
+-l"C:\ti\ccsv6\tools\compiler\c6000_7.4.8\dsk6713\lib\dsk6713bsl.lib" \
+-l"C:\Program Files\C6xCSL\lib_3x\csl6713.lib" \
 -l"rts6700.lib" \
--l"C:\CCStudio\c6700\dsplib\lib\dsp67x.lib" \
 
 -include ../makefile.init
 
@@ -126,6 +125,12 @@ endif
 -include ../makefile.defs
 
 # Add inputs and outputs from these tool invocations to the build variables 
+EXE_OUTPUTS += \
+mcbsp1.out \
+
+EXE_OUTPUTS__QUOTED += \
+"mcbsp1.out" \
+
 
 # All Target
 all: mcbsp1.out
@@ -134,13 +139,13 @@ all: mcbsp1.out
 mcbsp1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv5/tools/compiler/c6000_7.4.4/bin/cl6x" --abi=coffabi -O1 -g --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off -z --stack_size=0x800 -m"HelikopterGPC.map" -i"C:/ti/ccsv5/tools/compiler/c6000_7.4.4/lib" -i"C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include" -i"C:/Users/Adam/workspace_v5_5/HelikopterGPC" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HelikopterGPC_linkInfo.xml" --rom_model -o "mcbsp1.out" $(ORDERED_OBJS)
+	"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/bin/cl6x" --abi=coffabi -O3 -ms3 -g --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off -z --stack_size=0x800 -m"HelikopterGPC.map" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/lib" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/include" -i"C:/Users/Dominik/git/HelikopterGPC/HelikopterGPC" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HelikopterGPC_linkInfo.xml" --rom_model -o "mcbsp1.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "mcbsp1.out"
+	-$(RM) $(EXE_OUTPUTS__QUOTED)
 	-$(RM) "ADC8361.pp" "CPLD.pp" "Command_Utility.pp" "DAC7716.pp" "EDMA_Utility.pp" "I2C_Utility.pp" "IRQ_Utility.pp" "MainLoop_Helper.pp" "MatrixVectorOp.pp" "McBSP_Utility.pp" "enkoder.pp" "gpcregler.pp" "ident.pp" "lumatrixinv.pp" "main.pp" "timer.pp" 
 	-$(RM) "ADC8361.obj" "CPLD.obj" "Command_Utility.obj" "DAC7716.obj" "EDMA_Utility.obj" "I2C_Utility.obj" "IRQ_Utility.obj" "MainLoop_Helper.obj" "MatrixVectorOp.obj" "McBSP_Utility.obj" "enkoder.obj" "gpcregler.obj" "ident.obj" "lumatrixinv.obj" "main.obj" "timer.obj" "vecs_irq.obj" 
 	-$(RM) "vecs_irq.pp" 

@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -l"C:/ti/ccsv5/tools/compiler/c6000_7.4.4/lib/dsk6713bsl.lib" -l"C:/ti/ccsv5/tools/compiler/c6000_7.4.4/lib/csl6713.lib" -l"rts6700.lib" -l"C:/CCStudio/c6700/dsplib/lib/dsp67x.lib"
+LIBS := -l"C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/lib/dsk6713bsl.lib" -l"C:/Program\ Files/C6xCSL/lib_3x/csl6713.lib" -l"rts6700.lib"
 

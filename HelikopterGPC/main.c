@@ -21,7 +21,7 @@
 #include "Command_Utility.h"
 
 
-#include <DSPF_dp_mat_mul.h>
+//#include <DSPF_dp_mat_mul.h>
 
 #include "ADC8361.h"		/*ADC utility data*/
 #include "DAC7716.h"		/*DAC utility data*/
@@ -59,32 +59,14 @@ void TimerEventHandler(int);
 
 /* --------------------------MAIN----------------------------------*/
 void main() {
-//	int i,j;
-//	double x[3][3];
-//	for (i = 0; i<3; i++)
-//	{
-//		for (j = 0; j<3; j++){
-//			x[i][j] = 1;
-//		}
-//	}
-//	double y[3][3];
-//	for (i = 0; i<3; i++)
-//		{
-//			for (j = 0; j<3; j++){
-//				y[i][j] = 1;
-//			}
-//		}
-//	DSPF_dp_mat_mul(&x[0][0],3, 3, &y[0][0], 3,&wynik[0][0]);
-//////	DSPF_dp_mat_mul(x, 4, 4, y, 4,wynik);
-//	printf("Policzone!");
-//	while(1){printf("Policzone!");};
-	//EncMeasurement = Enc_Fill_With_Zeros(EncMeasurement);
 
-	//Bufor na pomiary z wejsc analogowych - niepotrzebny
-	//ADC_Measurement ADCMeasurement_Buffor;
 	Enc_Measurement EncMeasurement_Buffer;
-
-
+//	int i;
+//	int bezcelowaTablica[10000];
+//
+//	for(i=1;i<10000;i++){
+//		bezcelowaTablica[i]=1;
+//	}
 	Intialize_Chipset();
 
 
@@ -93,19 +75,20 @@ void main() {
 
 	//first polling transfer to initiate EDMA events chain
 	Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE,DAC_AC0,0x0ff));
+	DSK6713_LED_off(0);
+	PrepareGPC();
 
 	while(1)
 	{
-			//printf("While\n");
-			// Wait 0.1 sec
-			//DSK6713_waitusec(100000);
-			// Pobranie danych wejsciowych
-			EncMeasurement_Buffer = Enc_WaitForFreshInput(pEncMeasurement,&Enc_ReceiveToGo);
-			//printf("Wczytano dane wejsciowe\n");
-			//Wystawienie danych wyjsciowych
-			DACValues = Enc_PrepareFreshOutput(EncMeasurement_Buffer, &DAC_TransmitToGo,&WzmocnienieRegulatoraP);
-			//printf("Wystawiono sterowanie\n");
 
+		EncMeasurement_Buffer = Enc_WaitForFreshInput(pEncMeasurement,&Enc_ReceiveToGo);
+
+		DACValues = Enc_PrepareFreshOutput(EncMeasurement_Buffer, &DAC_TransmitToGo,&WzmocnienieRegulatoraP);
+
+		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC0, DACValues.Channel_A0));
+		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC3, DACValues.Channel_A1));
+
+		DSK6713_LED_toggle(2);
 	}
 }
 
