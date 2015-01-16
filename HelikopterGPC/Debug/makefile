@@ -138,7 +138,7 @@ all: mcbsp1.out
 mcbsp1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/bin/cl6x" --abi=coffabi -O3 -ms3 -g --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off -z --stack_size=0x800 -m"HelikopterGPC.map" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/lib" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/include" -i"C:/Users/Dominik/git/HelikopterGPC/HelikopterGPC" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HelikopterGPC_linkInfo.xml" --rom_model -o "mcbsp1.out" $(ORDERED_OBJS)
+	"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/bin/cl6x" --abi=coffabi -O3 -ms3 -g --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off -z --stack_size=0x800 -m"HelikopterGPC.map" --heap_size=0x1000 -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/lib" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/include" -i"C:/Users/Dominik/git/HelikopterGPC1/HelikopterGPC" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HelikopterGPC_linkInfo.xml" --rom_model -o "mcbsp1.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

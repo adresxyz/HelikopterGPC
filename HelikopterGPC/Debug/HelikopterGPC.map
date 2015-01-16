@@ -1,7 +1,7 @@
 ******************************************************************************
                TMS320C6x Linker PC v7.4.11                     
 ******************************************************************************
->> Linked Fri Jan 16 19:10:14 2015
+>> Linked Fri Jan 16 20:19:46 2015
 
 OUTPUT FILE NAME:   <mcbsp1.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00010940
@@ -11,8 +11,8 @@ MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  PMEM                  00000000   00016000  00012890  00003770  RWIX
-  BMEM                  00016000   00030000  0000090a  0002f6f6  RWIX
+  PMEM                  00000000   00013000  00012890  00000770  RWIX
+  BMEM                  00013000   00030000  0000150a  0002eaf6  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -225,52 +225,52 @@ section   page    origin      length       input sections
 .buffers   0    00012880    00000084     UNINITIALIZED
                   00012880    00000084     main.obj (.buffers)
 
-.data      0    00016000    00000000     UNINITIALIZED
+.data      0    00013000    00000000     UNINITIALIZED
 
-.sysmem    0    00016000    00000400     UNINITIALIZED
-                  00016000    00000008     rts6700.lib : memory.obj (.sysmem)
-                  00016008    000003f8     --HOLE--
+.sysmem    0    00013000    00001000     UNINITIALIZED
+                  00013000    00000008     rts6700.lib : memory.obj (.sysmem)
+                  00013008    00000ff8     --HOLE--
 
-.const     0    00016400    000002b6     
-                  00016400    00000101     rts6700.lib : ctype.obj (.const:.string:__ctypes_)
-                  00016501    00000003                 : assert.obj (.const:.string)
-                  00016504    0000008c     MatrixVectorOp.obj (.const:.string)
-                  00016590    00000040     DAC7716.obj (.const:.string)
-                  000165d0    00000040     I2C_Utility.obj (.const)
-                  00016610    0000002c     MainLoop_Helper.obj (.const:.string)
-                  0001663c    0000002c     lumatrixinv.obj (.const:.string)
-                  00016668    00000023     rts6700.lib : _printfi.obj (.const:.string)
-                  0001668b    00000001     --HOLE-- [fill = 0]
-                  0001668c    00000020     dsk6713bsl.lib : dsk6713.obj (.const)
-                  000166ac    00000008     Command_Utility.obj (.const:.string)
-                  000166b4    00000002     rts6700.lib : fputs.obj (.const:.string)
+.const     0    00014000    000002b6     
+                  00014000    00000101     rts6700.lib : ctype.obj (.const:.string:__ctypes_)
+                  00014101    00000003                 : assert.obj (.const:.string)
+                  00014104    0000008c     MatrixVectorOp.obj (.const:.string)
+                  00014190    00000040     DAC7716.obj (.const:.string)
+                  000141d0    00000040     I2C_Utility.obj (.const)
+                  00014210    0000002c     MainLoop_Helper.obj (.const:.string)
+                  0001423c    0000002c     lumatrixinv.obj (.const:.string)
+                  00014268    00000023     rts6700.lib : _printfi.obj (.const:.string)
+                  0001428b    00000001     --HOLE-- [fill = 0]
+                  0001428c    00000020     dsk6713bsl.lib : dsk6713.obj (.const)
+                  000142ac    00000008     Command_Utility.obj (.const:.string)
+                  000142b4    00000002     rts6700.lib : fputs.obj (.const:.string)
 
-.cio       0    000166b8    00000120     UNINITIALIZED
-                  000166b8    00000120     rts6700.lib : trgmsg.obj (.cio)
+.cio       0    000142b8    00000120     UNINITIALIZED
+                  000142b8    00000120     rts6700.lib : trgmsg.obj (.cio)
 
-.bss       0    000167d8    000000f4     UNINITIALIZED
-                  000167d8    0000005c     main.obj (.bss)
-                  00016834    00000058     DAC7716.obj (.bss)
-                  0001688c    00000030     MainLoop_Helper.obj (.bss)
-                  000168bc    0000000c     timer.obj (.bss)
-                  000168c8    00000004     Command_Utility.obj (.bss)
+.bss       0    000143d8    000000f4     UNINITIALIZED
+                  000143d8    0000005c     main.obj (.bss)
+                  00014434    00000058     DAC7716.obj (.bss)
+                  0001448c    00000030     MainLoop_Helper.obj (.bss)
+                  000144bc    0000000c     timer.obj (.bss)
+                  000144c8    00000004     Command_Utility.obj (.bss)
 
-.switch    0    000168cc    00000040     
-                  000168cc    00000030     Command_Utility.obj (.switch:_AnalyzeCommands)
-                  000168fc    00000010     DAC7716.obj (.switch:_DAC_Prepare_EDMA)
+.switch    0    000144cc    00000040     
+                  000144cc    00000030     Command_Utility.obj (.switch:_AnalyzeCommands)
+                  000144fc    00000010     DAC7716.obj (.switch:_DAC_Prepare_EDMA)
 
 
 GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
 
 address    name
 --------   ----
-000167d8   $bss
-000167d8   .bss
-00016000   .data
+000143d8   $bss
+000143d8   .bss
+00013000   .data
 00000000   .text
 00010f20   C$$EXIT
 00010698   C$$IO$$
-00016800   _ADCCounter
+00014400   _ADCCounter
 00006ed0   _AnalyzeCommands
 0000bbe0   _CPLD_WriteMisc
 00010d80   _CSL6713_LIB_
@@ -371,12 +371,12 @@ address    name
 0000d8a0   _TIMER_open
 0000e3a0   _TIMER_reset
 00004aa0   _TimerEventHandler
-000168c8   _WelcomeStringLength
-0001681c   _Wzad_pion
-0001681e   _Wzad_poziom
-00016818   _WzmocnienieCalki
-00016814   _WzmocnienieRegulatoraP
-000166b8   __CIOBUF_
+000144c8   _WelcomeStringLength
+0001441c   _Wzad_pion
+0001441e   _Wzad_poziom
+00014418   _WzmocnienieCalki
+00014414   _WzmocnienieRegulatoraP
+000142b8   __CIOBUF_
 0000b9c0   __CSL_init
 00011744   __IRQ_dispatchTable
 00011680   __IRQ_eventTable
@@ -387,7 +387,7 @@ address    name
 000117d4   __MCBSP_hDev1
 00012080   __STACK_END
 00000800   __STACK_SIZE
-00000400   __SYSMEM_SIZE
+00001000   __SYSMEM_SIZE
 00011828   __TIMER_deviceTable
 00011848   __TIMER_hBios
 00011840   __TIMER_hDev0
@@ -399,12 +399,12 @@ ffffffff   ___TI_pprof_out_hndl
 ffffffff   ___TI_prof_data_size
 ffffffff   ___TI_prof_data_start
 ffffffff   ___binit__
-000167d8   ___bss__
+000143d8   ___bss__
 ffffffff   ___c_args__
 00012080   ___cinit__
-00016000   ___data__
-00016000   ___edata__
-000168cc   ___end__
+00013000   ___data__
+00013000   ___edata__
+000144cc   ___end__
 00010fa0   ___etext__
 00010b80   ___isinf
 ffffffff   ___pinit__
@@ -419,7 +419,7 @@ ffffffff   ___pinit__
 0001185c   __cleanup_ptr
 0000d240   __closefile
 00010de0   __cmpd
-00016400   __ctypes_
+00014000   __ctypes_
 00004ae0   __divd
 0000f040   __divli
 0000fd00   __divu
@@ -449,7 +449,7 @@ ffffffff   ___pinit__
 0000db20   __strasgi
 00010ca0   __subcull
 00010f00   __subd
-00016000   __sys_memory
+00013000   __sys_memory
 00011180   __tmpnams
 0001186c   __unlock
 0000e4c0   __wrt_ok
@@ -459,10 +459,10 @@ ffffffff   ___pinit__
 00006288   _c_int08
 00005fd8   _c_int09
 00005f00   _c_int14
-00016810   _ce2
+00014410   _ce2
 0000e5e0   _close
 0000fdc0   _copy_in
-0001680c   _digital_output
+0001440c   _digital_output
 0000d5d0   _enableIRQ
 000076b4   _enableIRQ_EDMA
 000112c4   _errno
@@ -475,17 +475,17 @@ ffffffff   ___pinit__
 00001be4   _freeMatrix
 00001b60   _freeMatrixV
 0000c540   _fseek
-00016808   _fstart
+00014408   _fstart
 000019c8   _getMatrixEye
 0000184c   _getMatrixEyeptr
 00001720   _getMatrixptr
 00011390   _identyfikatorPion
 000113e0   _identyfikatorPoziom
 000034b8   _inverse
-0001688c   _kC
-0001689c   _kC2
-00016890   _kPID
-000168a0   _kPID2
+0001448c   _kC
+0001449c   _kC2
+00014490   _kPID
+000144a0   _kPID2
 0000f240   _lseek
 0000dee0   _ltoa
 000031c8   _lubksb
@@ -499,11 +499,11 @@ ffffffff   ___pinit__
 000112dc   _modelPion
 000112c8   _modelPoziom
 000014a8   _moveTableLeft
-00016804   _pEncMeasurement
-000168b4   _pion
-00016894   _pomiar
-000168a4   _pomiar2
-000168ac   _poziom
+00014404   _pEncMeasurement
+000144b4   _pion
+00014494   _pomiar
+000144a4   _pomiar2
+000144ac   _poziom
 000013a4   _printMatrix
 00001300   _printTable
 0000f340   _printf
@@ -518,11 +518,11 @@ ffffffff   ___pinit__
 0000a400   _setvbuf
 0000e020   _sqrt
 000074e0   _stopEdma
-00016898   _suma
-000168a8   _suma2
+00014498   _suma
+000144a8   _suma2
 00011760   _tccAllocTable
-000168b8   _uPion
-000168b0   _uPoziom
+000144b8   _uPion
+000144b0   _uPoziom
 00010580   _unlink
 0000bc20   _vector1
 0000bd40   _vector10
@@ -543,8 +543,8 @@ ffffffff   ___pinit__
 00011598   _wynik
 ffffffff   binit
 00012080   cinit
-00016000   edata
-000168cc   end
+00013000   edata
+000144cc   end
 00010fa0   etext
 ffffffff   pinit
 
@@ -559,13 +559,13 @@ address    name
 00000001   __TI_args_main
 00000150   _GPC_Constructor
 000003b4   _FillQ
-00000400   __SYSMEM_SIZE
 00000490   _CalcRefModelOutput
 0000064c   _CalcClearArx
 00000800   __STACK_SIZE
 00000804   _CalcQT
 00000b7c   _CalcArixOutput
 00000ef0   _CalculateGPC
+00001000   __SYSMEM_SIZE
 000010d0   _CalcArxOutput
 00001260   _pushStop
 000012b0   _pushStart
@@ -794,40 +794,40 @@ address    name
 00012080   __STACK_END
 00012080   ___cinit__
 00012080   cinit
-00016000   .data
-00016000   ___data__
-00016000   ___edata__
-00016000   __sys_memory
-00016000   edata
-00016400   __ctypes_
-000166b8   __CIOBUF_
-000167d8   $bss
-000167d8   .bss
-000167d8   ___bss__
-00016800   _ADCCounter
-00016804   _pEncMeasurement
-00016808   _fstart
-0001680c   _digital_output
-00016810   _ce2
-00016814   _WzmocnienieRegulatoraP
-00016818   _WzmocnienieCalki
-0001681c   _Wzad_pion
-0001681e   _Wzad_poziom
-0001688c   _kC
-00016890   _kPID
-00016894   _pomiar
-00016898   _suma
-0001689c   _kC2
-000168a0   _kPID2
-000168a4   _pomiar2
-000168a8   _suma2
-000168ac   _poziom
-000168b0   _uPoziom
-000168b4   _pion
-000168b8   _uPion
-000168c8   _WelcomeStringLength
-000168cc   ___end__
-000168cc   end
+00013000   .data
+00013000   ___data__
+00013000   ___edata__
+00013000   __sys_memory
+00013000   edata
+00014000   __ctypes_
+000142b8   __CIOBUF_
+000143d8   $bss
+000143d8   .bss
+000143d8   ___bss__
+00014400   _ADCCounter
+00014404   _pEncMeasurement
+00014408   _fstart
+0001440c   _digital_output
+00014410   _ce2
+00014414   _WzmocnienieRegulatoraP
+00014418   _WzmocnienieCalki
+0001441c   _Wzad_pion
+0001441e   _Wzad_poziom
+0001448c   _kC
+00014490   _kPID
+00014494   _pomiar
+00014498   _suma
+0001449c   _kC2
+000144a0   _kPID2
+000144a4   _pomiar2
+000144a8   _suma2
+000144ac   _poziom
+000144b0   _uPoziom
+000144b4   _pion
+000144b8   _uPion
+000144c8   _WelcomeStringLength
+000144cc   ___end__
+000144cc   end
 ffffffff   ___TI_pprof_out_hndl
 ffffffff   ___TI_prof_data_size
 ffffffff   ___TI_prof_data_start
