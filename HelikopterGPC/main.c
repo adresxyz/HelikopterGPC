@@ -23,7 +23,7 @@
 
 //#include <DSPF_dp_mat_mul.h>
 
-#include "ADC8361.h"		/*ADC utility data*/
+//#include "ADC8361.h"		/*ADC utility data*/
 #include "DAC7716.h"		/*DAC utility data*/
 #include "CPLD.h"
 #include "timer.h"
@@ -268,7 +268,7 @@ void Initialize(void)
 
 
 	//Wype³nienie struktury przechowuj¹cej pomiary z ADC zerami - DO WYRZUCENIA
-	ADCMeasurement = ADC_Fill_Measurement_With_Zeros();
+//	ADCMeasurement = ADC_Fill_Measurement_With_Zeros();
 
 	//Wype³nienie struktury przechowuj¹cej wartosci dla DAC zerami
 	DACValues = DAC_Fill_Values_With_Zeros();

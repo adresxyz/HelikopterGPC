@@ -10,7 +10,6 @@ ASM_SRCS += \
 ../vecs_irq.asm 
 
 C_SRCS += \
-../ADC8361.c \
 ../CPLD.c \
 ../Command_Utility.c \
 ../DAC7716.c \
@@ -28,7 +27,6 @@ C_SRCS += \
 ../timer.c 
 
 OBJS += \
-./ADC8361.obj \
 ./CPLD.obj \
 ./Command_Utility.obj \
 ./DAC7716.obj \
@@ -50,7 +48,6 @@ ASM_DEPS += \
 ./vecs_irq.pp 
 
 C_DEPS += \
-./ADC8361.pp \
 ./CPLD.pp \
 ./Command_Utility.pp \
 ./DAC7716.pp \
@@ -68,7 +65,6 @@ C_DEPS += \
 ./timer.pp 
 
 C_DEPS__QUOTED += \
-"ADC8361.pp" \
 "CPLD.pp" \
 "Command_Utility.pp" \
 "DAC7716.pp" \
@@ -86,7 +82,6 @@ C_DEPS__QUOTED += \
 "timer.pp" 
 
 OBJS__QUOTED += \
-"ADC8361.obj" \
 "CPLD.obj" \
 "Command_Utility.obj" \
 "DAC7716.obj" \
@@ -108,7 +103,6 @@ ASM_DEPS__QUOTED += \
 "vecs_irq.pp" 
 
 C_SRCS__QUOTED += \
-"../ADC8361.c" \
 "../CPLD.c" \
 "../Command_Utility.c" \
 "../DAC7716.c" \

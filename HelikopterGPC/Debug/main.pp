@@ -34,7 +34,6 @@ main.obj: ../EDMA_Utility.h
 main.obj: ../I2C_Utility.h
 main.obj: ../Command_Utility.h
 main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
-main.obj: ../ADC8361.h
 main.obj: ../DAC7716.h
 main.obj: ../enkoder.h
 main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
@@ -76,7 +75,6 @@ C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h:
 ../I2C_Utility.h: 
 ../Command_Utility.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 
-../ADC8361.h: 
 ../DAC7716.h: 
 ../enkoder.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 

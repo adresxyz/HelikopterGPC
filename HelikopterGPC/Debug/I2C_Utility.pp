@@ -20,7 +20,6 @@ I2C_Utility.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdarg.h
 I2C_Utility.obj: C:/Program\ Files/C6xCSL/include/csl.h
 I2C_Utility.obj: C:/Program\ Files/C6xCSL/include/csl_timer.h
 I2C_Utility.obj: C:/Program\ Files/C6xCSL/include/csl_timerhal.h
-I2C_Utility.obj: ../ADC8361.h
 I2C_Utility.obj: ../DAC7716.h
 I2C_Utility.obj: ../enkoder.h
 I2C_Utility.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
@@ -46,7 +45,6 @@ C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdarg.h:
 C:/Program\ Files/C6xCSL/include/csl.h: 
 C:/Program\ Files/C6xCSL/include/csl_timer.h: 
 C:/Program\ Files/C6xCSL/include/csl_timerhal.h: 
-../ADC8361.h: 
 ../DAC7716.h: 
 ../enkoder.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 

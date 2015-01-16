@@ -22,7 +22,6 @@ MainLoop_Helper.obj: ../enkoder.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/linkage.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdarg.h
-MainLoop_Helper.obj: ../ADC8361.h
 MainLoop_Helper.obj: ../DAC7716.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdlib.h
@@ -69,7 +68,6 @@ C:/Program\ Files/C6xCSL/include/csl_edmahal.h:
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/linkage.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdarg.h: 
-../ADC8361.h: 
 ../DAC7716.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdlib.h: 

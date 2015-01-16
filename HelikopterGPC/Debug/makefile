@@ -8,7 +8,6 @@ CG_TOOL_ROOT := c:/ti/ccsv6/tools/compiler/c6000_7.4.11
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
-"./ADC8361.obj" \
 "./CPLD.obj" \
 "./Command_Utility.obj" \
 "./DAC7716.obj" \
@@ -146,8 +145,8 @@ mcbsp1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC8361.pp" "CPLD.pp" "Command_Utility.pp" "DAC7716.pp" "EDMA_Utility.pp" "I2C_Utility.pp" "IRQ_Utility.pp" "MainLoop_Helper.pp" "MatrixVectorOp.pp" "McBSP_Utility.pp" "enkoder.pp" "gpcregler.pp" "ident.pp" "lumatrixinv.pp" "main.pp" "timer.pp" 
-	-$(RM) "ADC8361.obj" "CPLD.obj" "Command_Utility.obj" "DAC7716.obj" "EDMA_Utility.obj" "I2C_Utility.obj" "IRQ_Utility.obj" "MainLoop_Helper.obj" "MatrixVectorOp.obj" "McBSP_Utility.obj" "enkoder.obj" "gpcregler.obj" "ident.obj" "lumatrixinv.obj" "main.obj" "timer.obj" "vecs_irq.obj" 
+	-$(RM) "CPLD.pp" "Command_Utility.pp" "DAC7716.pp" "EDMA_Utility.pp" "I2C_Utility.pp" "IRQ_Utility.pp" "MainLoop_Helper.pp" "MatrixVectorOp.pp" "McBSP_Utility.pp" "enkoder.pp" "gpcregler.pp" "ident.pp" "lumatrixinv.pp" "main.pp" "timer.pp" 
+	-$(RM) "CPLD.obj" "Command_Utility.obj" "DAC7716.obj" "EDMA_Utility.obj" "I2C_Utility.obj" "IRQ_Utility.obj" "MainLoop_Helper.obj" "MatrixVectorOp.obj" "McBSP_Utility.obj" "enkoder.obj" "gpcregler.obj" "ident.obj" "lumatrixinv.obj" "main.obj" "timer.obj" "vecs_irq.obj" 
 	-$(RM) "vecs_irq.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

@@ -21,7 +21,7 @@
 #include "IRQ_Utility.h"  	/*IRQ configuration and utility data*/
 #include "EDMA_Utility.h"   /*EDMA configuration and utility data*/
 
-#include "ADC8361.h"		/*ADC utility data*/
+//#include "ADC8361.h"		/*ADC utility data*/
 #include "DAC7716.h"		/*DAC utility data*/
 #include "CPLD.h"
 
@@ -95,16 +95,16 @@ void ML_ShowGoodbyeMsg() {
 	printf("Goodbye!\n");
 }
 
-ADC_Measurement ML_WaitForFreshInput(volatile ADC_Measurement* _ADCInput,
-		volatile short* _ReceiveToGo) {
-	ADC_Measurement ADCInput_Buffor;
-	//while(ADC_Are_All_Channels_Fresh(*_ADCInput) == FALSE);
-	ADC_Unfresh(_ADCInput);
-	ADCInput_Buffor = (*_ADCInput);
-	(*_ReceiveToGo) = TRUE;
-	EDMA_intEnable(EDMA_ADC_IRQ);
-	return ADCInput_Buffor;
-}
+//ADC_Measurement ML_WaitForFreshInput(volatile ADC_Measurement* _ADCInput,
+//		volatile short* _ReceiveToGo) {
+//	ADC_Measurement ADCInput_Buffor;
+//	//while(ADC_Are_All_Channels_Fresh(*_ADCInput) == FALSE);
+//	ADC_Unfresh(_ADCInput);
+//	ADCInput_Buffor = (*_ADCInput);
+//	(*_ReceiveToGo) = TRUE;
+//	EDMA_intEnable(EDMA_ADC_IRQ);
+//	return ADCInput_Buffor;
+//}
 Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput,
 		volatile short* _ReceiveToGo) {
 	Enc_Measurement EncInput_Buffer;
@@ -117,25 +117,25 @@ Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput,
 	return EncInput_Buffer;
 }
 
-DAC_Values ML_PrepareFreshOutput(ADC_Measurement _ADCInput,
-		volatile short* _TransmitToGo) {
-	static int i = 0;
-
-	DAC_Values FreshOutput = DAC_Fill_Values_With_Zeros();
-	i++;
-	if (i * 8 > 0xfff) {
-		i = 0;
-	}
-
-	FreshOutput.Channel_A0 = 0xfff;
-	FreshOutput.Channel_A1 = 0xeff;
-	FreshOutput.Channel_A2 = i * 4;
-	FreshOutput.Channel_A3 = i * 8;
-
-	(*_TransmitToGo) = TRUE;
-	EDMA_intEnable(EDMA_DAC_IRQ);
-	return FreshOutput;
-}
+//DAC_Values ML_PrepareFreshOutput(ADC_Measurement _ADCInput,
+//		volatile short* _TransmitToGo) {
+//	static int i = 0;
+//
+//	DAC_Values FreshOutput = DAC_Fill_Values_With_Zeros();
+//	i++;
+//	if (i * 8 > 0xfff) {
+//		i = 0;
+//	}
+//
+//	FreshOutput.Channel_A0 = 0xfff;
+//	FreshOutput.Channel_A1 = 0xeff;
+//	FreshOutput.Channel_A2 = i * 4;
+//	FreshOutput.Channel_A3 = i * 8;
+//
+//	(*_TransmitToGo) = TRUE;
+//	EDMA_intEnable(EDMA_DAC_IRQ);
+//	return FreshOutput;
+//}
 void PrepareGPC() {
 	int k;
 
@@ -249,7 +249,7 @@ DAC_Values Enc_PrepareFreshOutput(Enc_Measurement _EncInput,volatile short* _Tra
 	FreshOutput.Channel_A1 = sterowanie2 + 0x7FF;
 
 	(*_TransmitToGo) = TRUE;
-	EDMA_intEnable(EDMA_DAC_IRQ);
+//	EDMA_intEnable(EDMA_DAC_IRQ);
 	return FreshOutput;
 }
 void Enc_SendOrder(int order) {

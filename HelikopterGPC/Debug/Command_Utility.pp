@@ -17,7 +17,6 @@ Command_Utility.obj: C:/Program\ Files/C6xCSL/include/csl_irq.h
 Command_Utility.obj: C:/Program\ Files/C6xCSL/include/csl_irqhal.h
 Command_Utility.obj: C:/Program\ Files/C6xCSL/include/csl_timer.h
 Command_Utility.obj: C:/Program\ Files/C6xCSL/include/csl_timerhal.h
-Command_Utility.obj: ../ADC8361.h
 Command_Utility.obj: ../DAC7716.h
 Command_Utility.obj: ../enkoder.h
 Command_Utility.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
@@ -39,7 +38,6 @@ C:/Program\ Files/C6xCSL/include/csl_irq.h:
 C:/Program\ Files/C6xCSL/include/csl_irqhal.h: 
 C:/Program\ Files/C6xCSL/include/csl_timer.h: 
 C:/Program\ Files/C6xCSL/include/csl_timerhal.h: 
-../ADC8361.h: 
 ../DAC7716.h: 
 ../enkoder.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h: 

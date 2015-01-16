@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <csl.h>
 
-#include "ADC8361.h"
+//#include "ADC8361.h"
 #include "DAC7716.h"
 #include "enkoder.h"
 

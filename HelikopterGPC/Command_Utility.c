@@ -12,7 +12,6 @@ const int WelcomeStringLength = 13;
 //Private function declarations:
 void CopyString(Uint8* _Source, Uint8* _Destination, int _Length);
 void Copy16Bit(int Source,Uint8* _Destination);
-void CopyAllMeasurement( ADC_Measurement* _ADCMeasurement, Uint8* _Destination);
 
 void DownloadCommand(Uint8* _CommandBuffer,Uint8* _CommandCounter, Uint8 _NewSign)
 {
@@ -193,26 +192,26 @@ void Copy16Bit(int Source, Uint8* _Destination)
 	_Destination[1] = LSB;
 }
 
-void CopyAllMeasurement( ADC_Measurement* _ADCMeasurement, Uint8* _Destination)
-{
-	Uint8 MSB1 = (_ADCMeasurement->Channel_A0 & 0xff00) >> 8;
-	Uint8 LSB1 = (_ADCMeasurement->Channel_A0 & 0x00ff);
-	Uint8 MSB2 = (_ADCMeasurement->Channel_A1 & 0xff00) >> 8;
-	Uint8 LSB2 = (_ADCMeasurement->Channel_A1 & 0x00ff);
-	Uint8 MSB3 = (_ADCMeasurement->Channel_B0 & 0xff00) >> 8;
-	Uint8 LSB3 = (_ADCMeasurement->Channel_B0 & 0x00ff);
-	Uint8 MSB4 = (_ADCMeasurement->Channel_B1 & 0xff00) >> 8;
-	Uint8 LSB4 = (_ADCMeasurement->Channel_B1 & 0x00ff);
-
-	_Destination[0] = MSB1;
-	_Destination[1] = LSB1;
-	_Destination[2] = MSB2;
-	_Destination[3] = LSB2;
-	_Destination[4] = MSB3;
-	_Destination[5] = LSB3;
-	_Destination[6] = MSB4;
-	_Destination[7] = LSB4;
-}
+//void CopyAllMeasurement( ADC_Measurement* _ADCMeasurement, Uint8* _Destination)
+//{
+//	Uint8 MSB1 = (_ADCMeasurement->Channel_A0 & 0xff00) >> 8;
+//	Uint8 LSB1 = (_ADCMeasurement->Channel_A0 & 0x00ff);
+//	Uint8 MSB2 = (_ADCMeasurement->Channel_A1 & 0xff00) >> 8;
+//	Uint8 LSB2 = (_ADCMeasurement->Channel_A1 & 0x00ff);
+//	Uint8 MSB3 = (_ADCMeasurement->Channel_B0 & 0xff00) >> 8;
+//	Uint8 LSB3 = (_ADCMeasurement->Channel_B0 & 0x00ff);
+//	Uint8 MSB4 = (_ADCMeasurement->Channel_B1 & 0xff00) >> 8;
+//	Uint8 LSB4 = (_ADCMeasurement->Channel_B1 & 0x00ff);
+//
+//	_Destination[0] = MSB1;
+//	_Destination[1] = LSB1;
+//	_Destination[2] = MSB2;
+//	_Destination[3] = LSB2;
+//	_Destination[4] = MSB3;
+//	_Destination[5] = LSB3;
+//	_Destination[6] = MSB4;
+//	_Destination[7] = LSB4;
+//}
 void Enc_ReadEnc(volatile Enc_Measurement* _EncInput, Uint8* _ReceivedData,Uint8 num)
 {
 	Enc_Refresh_Bytes(_EncInput, _ReceivedData[0], _ReceivedData[1],num);
