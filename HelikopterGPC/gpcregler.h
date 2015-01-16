@@ -1,7 +1,6 @@
 #ifndef GPCREGLER
 #define GPCREGLER
 #include <stdio.h>
-#define DUMP(varname) printf("%s = \n", #varname);
 #include "matrixvectorop.h"
 
 

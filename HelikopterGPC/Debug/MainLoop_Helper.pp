@@ -43,7 +43,6 @@ MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6
 MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h
 MainLoop_Helper.obj: ../McBSP_Utility.h
 MainLoop_Helper.obj: ../IRQ_Utility.h
-MainLoop_Helper.obj: ../EDMA_Utility.h
 MainLoop_Helper.obj: ../CPLD.h
 
 ../MainLoop_Helper.c: 
@@ -89,5 +88,4 @@ C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h:
 C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h: 
 ../McBSP_Utility.h: 
 ../IRQ_Utility.h: 
-../EDMA_Utility.h: 
 ../CPLD.h: 

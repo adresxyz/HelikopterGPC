@@ -1,4 +1,4 @@
-#include <stdio.h>
+//#include <stdio.h>
 
 #include <csl.h>
 #include <csl_mcbsp.h>
@@ -16,14 +16,11 @@
 
 #include "McBSP_Utility.h" 	/*MCBSP configuration and utility data*/
 #include "IRQ_Utility.h"  	/*IRQ configuration and utility data*/
-#include "EDMA_Utility.h"   /*EDMA configuration and utility data*/
+
 #include "I2C_Utility.h"    /*I2C configuration and utility data*/
 #include "Command_Utility.h"
 
 
-//#include <DSPF_dp_mat_mul.h>
-
-//#include "ADC8361.h"		/*ADC utility data*/
 #include "DAC7716.h"		/*DAC utility data*/
 #include "CPLD.h"
 #include "timer.h"
@@ -35,7 +32,7 @@ volatile int ADCCounter = 0;
 
 void Initialize(void);
 void Intialize_Chipset(void);
-//void Initialize_I2C(void);
+
 volatile Enc_Measurement EncMeasurement;
 volatile Enc_Measurement* pEncMeasurement = &EncMeasurement;
 volatile int fstart = 1;
@@ -61,20 +58,13 @@ void TimerEventHandler(int);
 void main() {
 
 	Enc_Measurement EncMeasurement_Buffer;
-//	int i;
-//	int bezcelowaTablica[10000];
-//
-//	for(i=1;i<10000;i++){
-//		bezcelowaTablica[i]=1;
-//	}
+
 	Intialize_Chipset();
 
 
 	//Pozosta³a inicjalizacja - patrz ni¿ej
 	Initialize();
 
-	//first polling transfer to initiate EDMA events chain
-	Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE,DAC_AC0,0x0ff));
 	DSK6713_LED_off(0);
 	PrepareGPC();
 
@@ -93,57 +83,11 @@ void main() {
 }
 
 /*-----------------INTERRUPTS ROUTINES-----------------*/
-interrupt void
-c_int08(void)   //EDMA Interrupts
-{
 
-	EDMA_intDisable(EDMA_DAC_IRQ);
-
-	if (EDMA_intTest(EDMA_DAC_IRQ) && DAC_TransmitToGo)/*Transmitter data transfer is completed*/
-	{
-		//printf("Przerwanie DAC\n");
-		/* Clear the pending interrupt from the EDMA interrupt pending register */
-		EDMA_intClear(EDMA_DAC_IRQ);
-
-		/* Perform ping-pong for receiver */
-		DAC_PingPong = (DAC_PingPong + 1) & 1;
-
-		/*Save input to adequate buffer*/
-		DAC_Prepare_EDMA(DAC_PingPong, DAC_Channel_To_Send, &DAC_Ping, &DAC_Pong, DACValues);
-
-		if(DAC_PingPong)
-		{
-			EDMA_link(hEdmaDAC,hEdmaDACPing);
-			//PrintfDACTransferInfo( DAC_Channel_To_Send, DAC_PingPong,DAC_Ping);
-		}
-		else
-		{
-			EDMA_link(hEdmaDAC,hEdmaDACPong);
-			//PrintfDACTransferInfo( DAC_Channel_To_Send, DAC_PingPong,DAC_Pong);
-		}
-
-		DAC_Update_Channel_To_Send(&DAC_Channel_To_Send);
-
-		/*we need to perform sending data to all 4 channels before we can disable EDMA*/
-		if(DAC_Channel_To_Send == 0)
-		{
-			DAC_TransmitToGo = FALSE;
-
-			EDMA_intDisable(EDMA_DAC_IRQ);
-			return;
-		}
-
-
-		EDMA_intEnable(EDMA_DAC_IRQ);
-	}
-
-	return;
-}
 interrupt void //I2C Interrupts
 c_int09(void)
 {
 	IRQ_disable(IRQ_EVT_I2CINT0);
-	//printf("I2C interrupt\n");
 	Uint32 val=0;
 	static Uint8 WordToSend = 0;
 	static Uint8 WordsToSend = 0;
@@ -190,7 +134,7 @@ c_int09(void)
 			WordToReceive++;
 			if(WordToReceive == WordsToReceive) //when all data is collected
 			{
-				//printf("All data!\n");
+
 				WordToReceive = -1;
 				WordsToReceive = 0;
 				ProcessReceivedData(ReceivedCommand,DataReceived, pEncMeasurement);
@@ -214,15 +158,6 @@ c_int09(void)
 // name:      TimerEventHandler
 //\************************************************************************/
 void TimerEventHandler(int _cnt) {
-	/* process timer event here */
-	/*switch (_cnt){
-	case 0:Enc_SendOrder(ACTIVATE);printf("Aktywacja: %#010x\n", *digital_output);break;
-	case 1:Enc_SendOrder(R_HIGH);printf("Rozkaz H: %#010x\n", *digital_output);break;
-	case 2:Enc_ReadHigh(pEncMeasurement);printf("Odczyt H: %#010x\n", *digital_output);break;
-	case 3:Enc_SendOrder(R_LOW);printf("Rozkaz L: %#010x\n", *digital_output);break;
-	case 4:Enc_ReadLow(pEncMeasurement);printf("Odczyt L: %#010x\n", *digital_output);Enc_ReceiveToGo = FALSE;Enc_Compute_Values(pEncMeasurement);break;
-	}*/
-
 
 	DSK6713_LED_toggle(3);
 }
@@ -267,9 +202,6 @@ void Initialize(void)
 	hI2C0 = I2C_open(I2C_DEV0,I2C_OPEN_RESET);
 
 
-	//Wype³nienie struktury przechowuj¹cej pomiary z ADC zerami - DO WYRZUCENIA
-//	ADCMeasurement = ADC_Fill_Measurement_With_Zeros();
-
 	//Wype³nienie struktury przechowuj¹cej wartosci dla DAC zerami
 	DACValues = DAC_Fill_Values_With_Zeros();
 
@@ -288,32 +220,15 @@ void Initialize(void)
 	/*Configure and start I2C*/
 	I2C_config(hI2C0,&I2C0_Config);
 
-	// Enhanced Direct Memory Access
-	/*EMDA opening*/
-	EDMA_clearPram(0x00000000);
-
-	hEdmaDAC = EDMA_open(EDMA_CHA_XEVT1, EDMA_OPEN_RESET);
-	hEdmaDACPing = EDMA_allocTable(-1);
-	hEdmaDACPong = EDMA_allocTable(-1);
-
-
-	/* EDMA Configuration*/
-	EDMA_configArgs(hEdmaDACPing,EDMADACConfOpt(),(Uint32)&DAC_Ping,1,MCBSP_getXmtAddr(hMcBSP_DAC),EDMA_IDX_OF(0),EDMA_RLD_RMK(0,hEdmaDACPing));
-	EDMA_configArgs(hEdmaDACPong,EDMADACConfOpt(),(Uint32)&DAC_Pong,1,MCBSP_getXmtAddr(hMcBSP_DAC),EDMA_IDX_OF(0),EDMA_RLD_RMK(0,hEdmaDACPong));
-	EDMA_configArgs(hEdmaDAC,EDMADACConfOpt(),(Uint32)&DAC_Pong,1,MCBSP_getXmtAddr(hMcBSP_DAC),EDMA_IDX_OF(0),EDMA_RLD_RMK(0,hEdmaDACPong));
 
 	/*Setting up interrupts*/
 	enableIRQ();
-	enableIRQ_EDMA();
 
-	/* Enable the EDMA channels */
-
-	EDMA_enableChannel(hEdmaDAC);
 
 	/* Now that the port is setup, let's enable it in steps. */
 	MCBSP_start(hMcBSP_DAC, MCBSP_XMIT_START | MCBSP_SRGR_START| MCBSP_SRGR_FRAMESYNC, MCBSP_SRGR_DEFAULT_DELAY);
 
-	//printf("Konfiguracja ok \n");
+
 	// Konfiugracja i uruchomienie timera
 	//TimerConfig();
 	/*gpio_handle = GPIO_open( GPIO_DEV0, GPIO_OPEN_RESET );

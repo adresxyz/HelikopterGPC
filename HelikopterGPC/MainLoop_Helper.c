@@ -19,7 +19,7 @@
 
 #include "McBSP_Utility.h" 	/*MCBSP configuration and utility data*/
 #include "IRQ_Utility.h"  	/*IRQ configuration and utility data*/
-#include "EDMA_Utility.h"   /*EDMA configuration and utility data*/
+//#include "EDMA_Utility.h"   /*EDMA configuration and utility data*/
 
 //#include "ADC8361.h"		/*ADC utility data*/
 #include "DAC7716.h"		/*DAC utility data*/
@@ -75,36 +75,9 @@ unsigned short int ML_CheckSwitch() {
 	return SelectedButtons;
 }
 
-void ML_ExitProcedure(EDMA_Handle* _hEDMA_ADC, int _ADC_IRQ,
-		EDMA_Handle* _hEDMA_ADC_Ping, EDMA_Handle* _hEDMA_ADC_Pong,
-		EDMA_Handle* _hEDMA_Dac, int _DAC_IRQ, EDMA_Handle* _hEDMA_DAC_Ping,
-		EDMA_Handle* _hEDMA_DAC_Pong, MCBSP_Handle _hMCBSP_ADC,
-		MCBSP_Handle _hMCBSP_DAC, int _ShowMsg) {
-	stopEdma(_hEDMA_ADC, _ADC_IRQ, _hEDMA_ADC_Ping, _hEDMA_ADC_Pong);
-	stopEdma(_hEDMA_Dac, _DAC_IRQ, _hEDMA_DAC_Ping, _hEDMA_DAC_Pong);
-	MCBSP_close(_hMCBSP_ADC);
-	MCBSP_close(_hMCBSP_DAC);
 
-	if (_ShowMsg) {
-		ML_ShowGoodbyeMsg();
-	}
-}
 
-void ML_ShowGoodbyeMsg() {
-	printf("Program was properly terminated!\n");
-	printf("Goodbye!\n");
-}
 
-//ADC_Measurement ML_WaitForFreshInput(volatile ADC_Measurement* _ADCInput,
-//		volatile short* _ReceiveToGo) {
-//	ADC_Measurement ADCInput_Buffor;
-//	//while(ADC_Are_All_Channels_Fresh(*_ADCInput) == FALSE);
-//	ADC_Unfresh(_ADCInput);
-//	ADCInput_Buffor = (*_ADCInput);
-//	(*_ReceiveToGo) = TRUE;
-//	EDMA_intEnable(EDMA_ADC_IRQ);
-//	return ADCInput_Buffor;
-//}
 Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput,
 		volatile short* _ReceiveToGo) {
 	Enc_Measurement EncInput_Buffer;
@@ -117,25 +90,7 @@ Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput,
 	return EncInput_Buffer;
 }
 
-//DAC_Values ML_PrepareFreshOutput(ADC_Measurement _ADCInput,
-//		volatile short* _TransmitToGo) {
-//	static int i = 0;
-//
-//	DAC_Values FreshOutput = DAC_Fill_Values_With_Zeros();
-//	i++;
-//	if (i * 8 > 0xfff) {
-//		i = 0;
-//	}
-//
-//	FreshOutput.Channel_A0 = 0xfff;
-//	FreshOutput.Channel_A1 = 0xeff;
-//	FreshOutput.Channel_A2 = i * 4;
-//	FreshOutput.Channel_A3 = i * 8;
-//
-//	(*_TransmitToGo) = TRUE;
-//	EDMA_intEnable(EDMA_DAC_IRQ);
-//	return FreshOutput;
-//}
+
 void PrepareGPC() {
 	int k;
 
@@ -144,13 +99,9 @@ void PrepareGPC() {
 	modelPoziom.nB = 2;
 	modelPoziom.k = 1;
 	modelPoziom.A = (double*) malloc(modelPoziom.nA * sizeof(double));
-	if(modelPoziom.A ==0){
-		DSK6713_LED_on(0);
-	}
+
 	modelPoziom.B = (double*) malloc((modelPoziom.nB + modelPoziom.k) * sizeof(double));
-	if(modelPoziom.B ==0){
-		DSK6713_LED_on(0);
-	}
+
 	modelPoziom.A[0] = -0.8;
 	modelPoziom.B[0] = 0.6;
 	modelPoziom.B[1] = 0.4;
@@ -179,13 +130,9 @@ void PrepareGPC() {
 		poziom[k] = 0;
 	}
 	double *uPion = (double*) malloc((modelPion.nB + modelPion.k) * sizeof(double));
-	if(uPion==0){
-		DSK6713_LED_on(0);
-	}
+
 	double *uPoziom = (double*) malloc((modelPoziom.nB + modelPoziom.k) * sizeof(double));
-	if(uPoziom==0){
-		DSK6713_LED_on(0);
-	}
+
 	for (k = 0; k < modelPion.nB + modelPion.k; ++k) {
 		uPion[k] = 0;
 	}

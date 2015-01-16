@@ -47,6 +47,8 @@ void ludcmp(double **a, int n, int *indx, double *d,double *vv)
         {
             fprintf(stderr, "Singular Matrix in Routine LUDCMP\n");
             for (j = 0; j<n; j++) printf(" %f ", a[i][j]); printf("/n");
+            return;
+            ///Tutaj trzeba cos zrobiæ, bo nie ma funkcji exit(). Poza tym ona nie ma sensu
             exit(1);
         }
         vv[i] = 1.0 / big;

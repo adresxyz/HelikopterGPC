@@ -77,6 +77,6 @@ unsigned int DAC_Prepare_Frame(unsigned int _RW, unsigned int _Reg_Address,unsig
 void DAC_Update_Channel_To_Send(short* _Channel_To_Sedn);
 void DAC_Prepare_EDMA(short int _PingPong,short _ChannelToSend, int* _PingBuff, int* _PongBuff, volatile DAC_Values _Values);
 DAC_Values DAC_Fill_Values_With_Zeros(void);
-void PrintfDACTransferInfo(short int _ChannelToSend, volatile short int _DAC_PingPong,int _ValueToSend );
+
 
 #endif

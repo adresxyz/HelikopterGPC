@@ -6,7 +6,6 @@
 #include <csl_edma.h>
 #include "enkoder.h"
 
-//#include "ADC8361.h"		/*ADC utility data*/
 #include "DAC7716.h"		/*DAC utility data*/
 
 #define RESET 0x300000
@@ -34,11 +33,8 @@ static volatile short Enc_ReceiveToGo = TRUE;
 static volatile short DAC_TransmitToGo = TRUE;
 
 /*Prototypes*/
-void ML_ExitProcedure(EDMA_Handle* _hEDMA_ADC, int _ADC_IRQ, EDMA_Handle* _hEDMA_ADC_Ping, EDMA_Handle* _hEDMA_ADC_Pong, EDMA_Handle* _hEDMA_Dac, int _DAC_IRQ, EDMA_Handle* _hEDMA_DAC_Ping,  EDMA_Handle* _hEDMA_DAC_Pong,  MCBSP_Handle _hMCBSP_ADC, MCBSP_Handle _hMCBSP_DAC, int _ShowMsg);
 unsigned short int ML_CheckSwitch();
-//ADC_Measurement ML_WaitForFreshInput(volatile ADC_Measurement* _ADCInput, volatile short* _ReceiveToGo);
 Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput, volatile short*_ReceiveToGo);
-//DAC_Values ML_PrepareFreshOutput(ADC_Measurement _ADCInput, volatile short* _TransmitToGo);
 DAC_Values Enc_PrepareFreshOutput(Enc_Measurement _EncInput, volatile short* _TransmitToGo,float*);
 void Enc_SendOrder(int order);
 

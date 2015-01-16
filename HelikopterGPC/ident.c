@@ -4,9 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#ifndef DUMP
-#define DUMP(varname) printf("%s = \n", #varname);
-#endif
+
 
 
 
@@ -105,7 +103,7 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
         }
         idobj->VectK[i]/=temp;
     }
-    //DUMP(alpha);printf("\t%f \n",alpha);;
+
 
 
     /* Computing P */

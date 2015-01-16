@@ -9,9 +9,6 @@ void setupIRQ(void)
      IRQ_nmiEnable();
      IRQ_globalEnable();
 
-     IRQ_map(IRQ_EVT_EDMAINT, 8);
-     IRQ_reset(IRQ_EVT_EDMAINT);
-
      IRQ_map(IRQ_EVT_I2CINT0,9);
      IRQ_reset(IRQ_EVT_I2CINT0);
 }
@@ -19,7 +16,6 @@ void setupIRQ(void)
 /*to enable necessary interrupts use this function*/
 void enableIRQ(void)
 {
-	IRQ_enable(IRQ_EVT_EDMAINT);
 	IRQ_enable(IRQ_EVT_I2CINT0);
 }
 
