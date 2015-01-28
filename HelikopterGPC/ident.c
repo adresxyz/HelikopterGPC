@@ -34,6 +34,12 @@ void IdentObj_Constructor(IdentObj* obj,ARX* model,double Beta,double Lambda)
         obj->Theta[i]=obj->Phi[i] = obj->VectK[i]=0.0;
     }
 
+    for ( i = 0; i < model->nA+model->nB+1; ++i) {
+        obj->memY[i]=obj->memU[i] =0.0;
+    }
+
+
+
 }
 
 void IdentObj_Destructor(IdentObj *obj)

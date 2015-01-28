@@ -65,7 +65,8 @@ void CommandEngine(Commands _Command, Uint8* _DataToSend, Uint8* _WordsToSend,Ui
 {
 	if(_Command == Hello)
 	{
-		printf("Halo!\n");
+//		printf("Halo!\n");
+		DSK6713_LED_on(3);
 	}
 	else if(_Command == GetDAC_0)
 	{
