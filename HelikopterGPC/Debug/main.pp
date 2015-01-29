@@ -38,6 +38,7 @@ main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
 main.obj: ../CPLD.h
 main.obj: ../timer.h
 main.obj: ../MainLoop_Helper.h
+main.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdlib.h
 
 ../main.c: 
 C:/Program\ Files/C6xCSL/include/csl.h: 
@@ -77,3 +78,4 @@ C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h:
 ../CPLD.h: 
 ../timer.h: 
 ../MainLoop_Helper.h: 
+C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdlib.h: 
