@@ -4,9 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#ifndef DUMP
-#define DUMP(varname) printf("%s = \n", #varname);
-#endif
+
 
 
 
@@ -35,6 +33,12 @@ void IdentObj_Constructor(IdentObj* obj,ARX* model,double Beta,double Lambda)
     for ( i = 0; i < model->nA+model->nB; ++i) {
         obj->Theta[i]=obj->Phi[i] = obj->VectK[i]=0.0;
     }
+
+    for ( i = 0; i < model->nA+model->nB+1; ++i) {
+        obj->memY[i]=obj->memU[i] =0.0;
+    }
+
+
 
 }
 
@@ -105,7 +109,7 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
         }
         idobj->VectK[i]/=temp;
     }
-    //DUMP(alpha);printf("\t%f \n",alpha);;
+
 
 
     /* Computing P */

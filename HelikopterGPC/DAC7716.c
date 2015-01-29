@@ -66,12 +66,6 @@ DAC_Values DAC_Fill_Values_With_Zeros(void)
 	return NewValues;
 }
 
-void PrintfDACTransferInfo(short int _ChannelToSend,short int _DAC_PingPong,int _ValueToSend )
-{
-	printf("Channel to send: %d \n",_ChannelToSend);
-	printf("DAC PingPong: %d \n",_DAC_PingPong);
-	printf("Channel to send: %d \n",_ChannelToSend);
-	printf("Value to send: %d \n",_ValueToSend);
-}
+
 
 

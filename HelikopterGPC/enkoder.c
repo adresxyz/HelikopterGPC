@@ -12,7 +12,6 @@ int Encoder_Are_Bytes_Fresh(volatile Encoder _Enc)
 	{
 		return 0;
 	}
-	//printf("Pierwszy ok!\n");
 	if(_Enc.Is_Low_Fresh == 0)
 	{
 		return 0;
@@ -40,7 +39,6 @@ void Enc_Refresh_Bytes(volatile Enc_Measurement* _Measurement, short int _Value_
 {
 	if(_Measurement != 0)
 	{
-		//printf("Robie cokolwiek\n");
 		if (!num)
 		{
 			_Measurement->Enc0.High_Byte = _Value_0;
@@ -63,12 +61,10 @@ void Enc_Refresh_Bytes(volatile Enc_Measurement* _Measurement, short int _Value_
 
 int Enc_Are_Both_Enc_Fresh(volatile Enc_Measurement* _Measurement)
 {
-	//printf("Sprawdzam\n");
 	if (Encoder_Are_Bytes_Fresh(_Measurement->Enc0) == 0)
 	{
 		return 0;
 	}
-	//printf("Enc0 kompletny!\n");
 	_Measurement->Is_Enc0_Fresh = 1;
 	if (Encoder_Are_Bytes_Fresh(_Measurement->Enc1) == 0)
 	{

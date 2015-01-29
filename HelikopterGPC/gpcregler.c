@@ -67,55 +67,17 @@ void GPC_Destructor(GPC* Regulator)
 ///
 double CalculateGPC(GPC* Reg,ARX *model, double*y, double *u, double w)
 {
-
-#ifdef SHOW_INFO
-    DUMP(y);printTable(y,model->nA);
-    DUMP(u);printTable(u,model->nB+model->k);
-#endif
-
-
     CalcRefModelOutput(Reg,y[model->nA-1],w);
-
-#ifdef SHOW_INFO
-    DUMP(Reg->w0);printTable(Reg->w0,Reg->H);
-#endif
-
-
-
     CalcClearArx(Reg,model);
-#ifdef SHOW_INFO
-    DUMP(Reg->h);printTable(Reg->h,Reg->H);
-#endif
-
     FillQ(Reg);
-#ifdef SHOW_INFO
-    DUMP(Reg->Q);printMatrix(Reg->Q);
-#endif
-
-
     CalcQT(Reg);
-#ifdef SHOW_INFO
-    DUMP(Reg->qT);printTable(Reg->qT,Reg->H);
-#endif
-
     CalcArixOutput(Reg,model,y,u);
-#ifdef SHOW_INFO
-    DUMP(Reg->y0);printTable(Reg->y0,Reg->H);
-#endif
-
     // Calculating u
     double du = 0;
     int i;
     for ( i = 0; i < Reg->H; ++i) {
         du+= Reg->qT[i] * (Reg->w0[i] - Reg->y0[i]);
     }
-
-#ifdef SHOW_INFO
-    printf("\n du=%f \n",du);
-    printf("\n u=%f \n",du +u[model->nB+model->k-1]);
-#endif
-
-
     return du +u[model->nB+model->k-1];
 }
 
@@ -141,17 +103,10 @@ void CalcQT(GPC* reg)
     }
 
 
-#ifdef SHOW_INFO
-    DUMP(reg->QToInv);printMatrix(reg->QToInv);
-#endif
 
 
     inverse(reg->QToInv->mat,reg->InvHelper,reg->col,reg->indx,reg->L,reg->vv);
 
-
-#ifdef SHOW_INFO
-    DUMP(reg->QToInv);printMatrix(reg->QToInv);
-#endif
 
     // Mult QToInv * Q^T = q^T
     for ( k = 0; k < reg->H; ++k) {
@@ -247,10 +202,7 @@ void CalcArixOutput(GPC* reg,ARX* model,double* y,double* u)
 
         moveTableLeft(reg->wU,model->nB+model->k);
         reg->wU[model->nB+model->k-1]=ui;
-#ifdef SHOW_INFO
-        DUMP(reg->wY);printTable(reg->wY,model->nA);
-        DUMP(reg->wU);printTable(reg->wU,model->nB +model->k);
-#endif
+
         reg->y0[i]=ynext;
     }
 

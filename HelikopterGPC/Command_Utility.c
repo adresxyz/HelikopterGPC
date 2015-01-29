@@ -6,13 +6,11 @@
 #define _24BIT_LEN 3
 #define _48BIT_LEN 6
 
-static Uint8 WelcomeString[] = "DSP is ready!";
-const int WelcomeStringLength = 13;
+
 
 //Private function declarations:
 void CopyString(Uint8* _Source, Uint8* _Destination, int _Length);
 void Copy16Bit(int Source,Uint8* _Destination);
-void CopyAllMeasurement( ADC_Measurement* _ADCMeasurement, Uint8* _Destination);
 
 void DownloadCommand(Uint8* _CommandBuffer,Uint8* _CommandCounter, Uint8 _NewSign)
 {
@@ -67,9 +65,8 @@ void CommandEngine(Commands _Command, Uint8* _DataToSend, Uint8* _WordsToSend,Ui
 {
 	if(_Command == Hello)
 	{
-		(*_WordsToSend) = WelcomeStringLength;
-		CopyString(WelcomeString,_DataToSend,WelcomeStringLength);
-		printf("Halo!\n");
+//		printf("Halo!\n");
+		DSK6713_LED_on(3);
 	}
 	else if(_Command == GetDAC_0)
 	{
@@ -152,24 +149,7 @@ void ProcessReceivedData(Commands _Command,Uint8* _ReceivedData,volatile Enc_Mea
 				Parametry2[1] = (_ReceivedData[2]<<8) | _ReceivedData[3];
 				Parametry2[2] = (_ReceivedData[4]<<8) | _ReceivedData[5];
 		}
-	/*else if(_Command == SetDAC_3)
-	{
-		(*_DACValues).Channel_A2= ReceivedValue;
-	}
-	else if(_Command == SetDAC_4)
-	{
-		(*_DACValues).Channel_A3 = ReceivedValue;
-	}
-	else if(_Command == SetDACAll)
-	{
-		(*_DACValues).Channel_A0 = ReceivedValue;
-		ReceivedValue = (_ReceivedData[2]<<8) + _ReceivedData[3];
-		(*_DACValues).Channel_A1 = ReceivedValue;
-		ReceivedValue = (_ReceivedData[4]<<8) + _ReceivedData[5];
-		(*_DACValues).Channel_A2 = ReceivedValue;
-		ReceivedValue = (_ReceivedData[6]<<8) + _ReceivedData[7];
-		(*_DACValues).Channel_A3 = ReceivedValue;
-	}*/
+
 }
 
 //Private functions:
@@ -193,26 +173,7 @@ void Copy16Bit(int Source, Uint8* _Destination)
 	_Destination[1] = LSB;
 }
 
-void CopyAllMeasurement( ADC_Measurement* _ADCMeasurement, Uint8* _Destination)
-{
-	Uint8 MSB1 = (_ADCMeasurement->Channel_A0 & 0xff00) >> 8;
-	Uint8 LSB1 = (_ADCMeasurement->Channel_A0 & 0x00ff);
-	Uint8 MSB2 = (_ADCMeasurement->Channel_A1 & 0xff00) >> 8;
-	Uint8 LSB2 = (_ADCMeasurement->Channel_A1 & 0x00ff);
-	Uint8 MSB3 = (_ADCMeasurement->Channel_B0 & 0xff00) >> 8;
-	Uint8 LSB3 = (_ADCMeasurement->Channel_B0 & 0x00ff);
-	Uint8 MSB4 = (_ADCMeasurement->Channel_B1 & 0xff00) >> 8;
-	Uint8 LSB4 = (_ADCMeasurement->Channel_B1 & 0x00ff);
 
-	_Destination[0] = MSB1;
-	_Destination[1] = LSB1;
-	_Destination[2] = MSB2;
-	_Destination[3] = LSB2;
-	_Destination[4] = MSB3;
-	_Destination[5] = LSB3;
-	_Destination[6] = MSB4;
-	_Destination[7] = LSB4;
-}
 void Enc_ReadEnc(volatile Enc_Measurement* _EncInput, Uint8* _ReceivedData,Uint8 num)
 {
 	Enc_Refresh_Bytes(_EncInput, _ReceivedData[0], _ReceivedData[1],num);

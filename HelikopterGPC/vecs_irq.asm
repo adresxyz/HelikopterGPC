@@ -11,7 +11,7 @@
    .global _vector5
    .global _vector6
    .global _vector7
-   .global _c_int08
+   .global _vector8; tutaj by³o: _c_int08
    .global _c_int09
    .global _c_int14
    .global _vector10 
@@ -68,7 +68,7 @@ _vector4:   VEC_ENTRY _vec_dummy
 _vector5:   VEC_ENTRY _vec_dummy
 _vector6:   VEC_ENTRY _vec_dummy
 _vector7:   VEC_ENTRY _vec_dummy
-_vector8:   VEC_ENTRY _c_int08
+_vector8:   VEC_ENTRY _vec_dummy ;tutaj by³o to: _c_int08
 _vector9:   VEC_ENTRY _c_int09
 _vector10:  VEC_ENTRY _vec_dummy
 _vector11:  VEC_ENTRY _vec_dummy

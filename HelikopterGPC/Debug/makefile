@@ -8,11 +8,9 @@ CG_TOOL_ROOT := c:/ti/ccsv6/tools/compiler/c6000_7.4.11
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
-"./ADC8361.obj" \
 "./CPLD.obj" \
 "./Command_Utility.obj" \
 "./DAC7716.obj" \
-"./EDMA_Utility.obj" \
 "./I2C_Utility.obj" \
 "./IRQ_Utility.obj" \
 "./MainLoop_Helper.obj" \
@@ -139,15 +137,15 @@ all: mcbsp1.out
 mcbsp1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/bin/cl6x" --abi=coffabi -O3 -ms3 -g --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off -z --stack_size=0x800 -m"HelikopterGPC.map" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/lib" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/include" -i"C:/Users/Dominik/git/HelikopterGPC/HelikopterGPC" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HelikopterGPC_linkInfo.xml" --rom_model -o "mcbsp1.out" $(ORDERED_OBJS)
+	"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/bin/cl6x" --abi=coffabi -O3 -ms3 -g --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off -z --stack_size=0x800 -m"HelikopterGPC.map" --heap_size=0x1000 -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/lib" -i"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/include" -i"C:/Users/Dominik/git/HelikopterGPC1/HelikopterGPC" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HelikopterGPC_linkInfo.xml" --rom_model -o "mcbsp1.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC8361.pp" "CPLD.pp" "Command_Utility.pp" "DAC7716.pp" "EDMA_Utility.pp" "I2C_Utility.pp" "IRQ_Utility.pp" "MainLoop_Helper.pp" "MatrixVectorOp.pp" "McBSP_Utility.pp" "enkoder.pp" "gpcregler.pp" "ident.pp" "lumatrixinv.pp" "main.pp" "timer.pp" 
-	-$(RM) "ADC8361.obj" "CPLD.obj" "Command_Utility.obj" "DAC7716.obj" "EDMA_Utility.obj" "I2C_Utility.obj" "IRQ_Utility.obj" "MainLoop_Helper.obj" "MatrixVectorOp.obj" "McBSP_Utility.obj" "enkoder.obj" "gpcregler.obj" "ident.obj" "lumatrixinv.obj" "main.obj" "timer.obj" "vecs_irq.obj" 
+	-$(RM) "CPLD.pp" "Command_Utility.pp" "DAC7716.pp" "I2C_Utility.pp" "IRQ_Utility.pp" "MainLoop_Helper.pp" "MatrixVectorOp.pp" "McBSP_Utility.pp" "enkoder.pp" "gpcregler.pp" "ident.pp" "lumatrixinv.pp" "main.pp" "timer.pp" 
+	-$(RM) "CPLD.obj" "Command_Utility.obj" "DAC7716.obj" "I2C_Utility.obj" "IRQ_Utility.obj" "MainLoop_Helper.obj" "MatrixVectorOp.obj" "McBSP_Utility.obj" "enkoder.obj" "gpcregler.obj" "ident.obj" "lumatrixinv.obj" "main.obj" "timer.obj" "vecs_irq.obj" 
 	-$(RM) "vecs_irq.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

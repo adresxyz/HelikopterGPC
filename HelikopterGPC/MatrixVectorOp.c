@@ -106,17 +106,7 @@ void freeMatrixV(Matrix mat)
     free(mat.mat);
 }
 
-void printMatrix(Matrix* mat)
-{
-    int i,j;
-    for(i=0;i<mat->row;++i)
-    {
-        for(j=0;j<mat->col;++j)
-            printf("\t%f",mat->mat[i][j]);
-        printf("\n");
-    }
-    printf("\n");
-}
+
 
 Matrix MatrixMult(Matrix* mat,Matrix* mau)
 {
@@ -188,15 +178,7 @@ double **matMult(double** mat,double** mau,int l,int m,int n )
 
 }
 
-void printTable(double A[],int size)
-{
-    int i;
-    printf("\t");
-    for (i = 0; i < size; ++i) {
-        printf("%f ",A[i]);
-    }
-    printf("\n");
-}
+
 
 
 void moveTableLeft(double* A,int size)
