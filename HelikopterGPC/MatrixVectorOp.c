@@ -3,17 +3,17 @@
 #include<stdlib.h>
 #include<assert.h>
 #include <stdio.h>
-
+#include "alokacja.h"
 #include "matrixvectorop.h"
 #include "gpcregler.h"
 #define DEBUGINFO
 
 
-//Matrix getMatrix(int row,int col, double A)
+//Matrix getMatrix(int row,int col, float A)
 //{
 //    int i,j;
-//    double **data = (double **) malloc((unsigned)row * sizeof(double*));
-//    for( i = 0; i < row; i++) data[i] = (double *)malloc((unsigned) col * sizeof(double));
+//    float **data = (float **) alokuj((unsigned)row * sizeof(float*));
+//    for( i = 0; i < row; i++) data[i] = (float *)alokuj((unsigned) col * sizeof(float));
 
 //    for ( i = 0; i < row; ++i) {
 //        for ( j = 0; j < col; ++j) {
@@ -28,11 +28,11 @@
 //    return mat;
 //}
 
-Matrix* getMatrixptr(int row,int col, double A)
+Matrix* getMatrixptr(int row,int col, float A)
 {
     int i,j;
-    double **data = (double **) malloc((unsigned)row * sizeof(double*));
-    for( i = 0; i < row; i++) data[i] = (double *)malloc((unsigned) col * sizeof(double));
+    float **data = (float **) alokuj((unsigned)row * sizeof(float*));
+    for( i = 0; i < row; i++) data[i] = (float *)alokuj((unsigned) col * sizeof(float));
 
     for ( i = 0; i < row; ++i) {
         for ( j = 0; j < col; ++j) {
@@ -40,18 +40,18 @@ Matrix* getMatrixptr(int row,int col, double A)
         }
     }
 
-    Matrix* mat = (Matrix*) malloc(sizeof(Matrix));
+    Matrix* mat = (Matrix*) alokuj(sizeof(Matrix));
     mat->mat = data;
     mat->col = col;
     mat->row = row;
     return mat;
 }
 
-Matrix getMatrixEye(int row,int col,double A)
+Matrix getMatrixEye(int row,int col,float A)
 {
     int i,j;
-    double ** y = (double **)malloc(row * sizeof(double*));
-    for( i = 0; i < row; i++) y[i] = (double *)malloc(col * sizeof(double));
+    float ** y = (float **)alokuj(row * sizeof(float*));
+    for( i = 0; i < row; i++) y[i] = (float *)alokuj(col * sizeof(float));
 
     for ( i = 0; i < row; ++i) {
         for ( j = 0; j < col; ++j) {
@@ -70,11 +70,11 @@ Matrix getMatrixEye(int row,int col,double A)
     mat.row = row;
     return mat;
 }
-Matrix* getMatrixEyeptr(int row,int col,double A)
+Matrix* getMatrixEyeptr(int row,int col,float A)
 {
     int i,j;
-    double ** y = (double **)malloc(row * sizeof(double*));
-    for( i = 0; i < row; i++) y[i] = (double *)malloc(col * sizeof(double));
+    float ** y = (float **)alokuj(row * sizeof(float*));
+    for( i = 0; i < row; i++) y[i] = (float *)alokuj(col * sizeof(float));
 
     for ( i = 0; i < row; ++i) {
         for ( j = 0; j < col; ++j) {
@@ -86,7 +86,7 @@ Matrix* getMatrixEyeptr(int row,int col,double A)
         y[i][i]=A;
     }
 
-    Matrix* mat = (Matrix*) malloc(sizeof(Matrix));
+    Matrix* mat = (Matrix*) alokuj(sizeof(Matrix));
     mat->mat = y;
     mat->col = col;
     mat->row = row;
@@ -113,7 +113,7 @@ Matrix MatrixMult(Matrix* mat,Matrix* mau)
     /// Allocating new Matrix
     Matrix rMatrix;
     /// Copying data
-    rMatrix.mat =(double**) matMult(mat->mat,mau->mat,mat->row,mat->col,mau->col);
+    rMatrix.mat =(float**) matMult(mat->mat,mau->mat,mat->row,mat->col,mau->col);
     rMatrix.col = mau->col;
     rMatrix.row = mat->row;
     return rMatrix;
@@ -122,7 +122,7 @@ Matrix MatrixMult(Matrix* mat,Matrix* mau)
 void MatrixMultptr(Matrix* mat,Matrix* mau,Matrix *out)
 {
     /// Copying data
-    //out->mat =(double**) matMult(mat->mat,mau->mat,mat->row,mat->col,mau->col);
+    //out->mat =(float**) matMult(mat->mat,mau->mat,mat->row,mat->col,mau->col);
     int l=mat->row, m=mat->col, n=mau->col;
     int i,j,k;
     for ( i = 0; i < l; ++i) {
@@ -148,7 +148,7 @@ void MatrixMultptr(Matrix* mat,Matrix* mau,Matrix *out)
  * @param o - #of cols of s.m.
  * @return
  */
-double **matMult(double** mat,double** mau,int l,int m,int n )
+float **matMult(float** mat,float** mau,int l,int m,int n )
 {
 
 #ifdef DEBUGINFO
@@ -157,11 +157,11 @@ double **matMult(double** mat,double** mau,int l,int m,int n )
 #endif
 
     int i,j,k;
-    double** NewMatrix = (double**)malloc(l*sizeof(double));
+    float** NewMatrix = (float**)alokuj(l*sizeof(float));
 
     // Allocation of output
     for ( i = 0; i < l; ++i) {
-        NewMatrix[i] = (double *)malloc(n * sizeof(double));
+        NewMatrix[i] = (float *)alokuj(n * sizeof(float));
     }
 
 
@@ -181,7 +181,7 @@ double **matMult(double** mat,double** mau,int l,int m,int n )
 
 
 
-void moveTableLeft(double* A,int size)
+void moveTableLeft(float* A,int size)
 {
     int i;
     for (i = 1; i < size; ++i) {
@@ -189,7 +189,7 @@ void moveTableLeft(double* A,int size)
     }
 }
 
-void pushStop(double New,double* A,int size)
+void pushStop(float New,float* A,int size)
 {
     int i;
     for (i = 1; i < size; ++i) {
@@ -198,7 +198,7 @@ void pushStop(double New,double* A,int size)
     A[size-1]=New;
 }
 
-void pushStart(double New,double* A,int size)
+void pushStart(float New,float* A,int size)
 {
     int i;
     for (i = size-1; i >0; --i) {

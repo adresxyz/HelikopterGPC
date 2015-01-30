@@ -41,9 +41,9 @@ int *ce2 = (int *)CE2;
 
 float WzmocnienieRegulatoraP = 1;
 float WzmocnienieCalki = 1;
-double wynik[3][3];
+float wynik[3][3];
 
-volatile short int Wzad_pion = -150;
+volatile short int Wzad_pion = 100;
 volatile short int Wzad_poziom = 150;
 volatile short int Parametry1[3];
 volatile short int Parametry2[3];
@@ -56,9 +56,9 @@ void TimerEventHandler(int);
 
 /* --------------------------MAIN----------------------------------*/
 void main() {
-
+	DSK6713_LED_off(1);
 	Enc_Measurement EncMeasurement_Buffer;
-
+	EncMeasurement = Enc_Fill_With_Zeros(EncMeasurement);
 	Intialize_Chipset();
 
 
@@ -159,7 +159,7 @@ c_int09(void)
 //\************************************************************************/
 void TimerEventHandler(int _cnt) {
 
-	DSK6713_LED_toggle(3);
+//	DSK6713_LED_toggle(3);
 }
 
 ///************************************************************************\

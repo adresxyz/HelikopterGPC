@@ -3,7 +3,7 @@
 
 typedef struct
 {
-    double** mat;
+    float** mat;
     int row;
     int col;
 }Matrix;
@@ -13,24 +13,24 @@ typedef struct
     int nA;
     int nB;
     int k;
-    double* A;
-    double* B;
+    float* A;
+    float* B;
 }ARX;
 
 Matrix MatrixMult(Matrix* mat,Matrix* mau);
 void MatrixMultptr(Matrix* mat,Matrix* mau,Matrix *out);
-Matrix getMatrix(int row,int col, double A);
-Matrix* getMatrixptr(int row,int col, double A);
+Matrix getMatrix(int row,int col, float A);
+Matrix* getMatrixptr(int row,int col, float A);
 
-Matrix getMatrixEye(int row, int col, double A);
-Matrix* getMatrixEyeptr(int row,int col, double A);
-double** matMult(double** mat,double** mau,int l,int m,int n );
+Matrix getMatrixEye(int row, int col, float A);
+Matrix* getMatrixEyeptr(int row,int col, float A);
+float** matMult(float** mat,float** mau,int l,int m,int n );
 void freeMatrix(Matrix* mat);
 
 
 
-void moveTableLeft(double* A,int size);
-void pushStop(double New,double* A,int size);
-void pushStart(double New,double* A,int size);
+void moveTableLeft(float* A,int size);
+void pushStop(float New,float* A,int size);
+void pushStart(float New,float* A,int size);
 #endif // MATRIXVECTOROP
 

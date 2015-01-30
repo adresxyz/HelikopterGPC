@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "alokacja.h"
 #include "matrixvectorop.h"
 #include "lumatrixinv.h"
 #include "gpcregler.h"
@@ -39,7 +40,7 @@ float kPID2 = 0.7;
 int pomiar2;
 //int wartoscZadana2=1000;
 float suma2 = 0;
-int use_Gpc = 1;
+int use_Gpc = 0;
 // Zmienne globalne GPC
 ARX modelPoziom;
 ARX modelPion;
@@ -48,10 +49,10 @@ GPC regulatorPoziom;
 GPC regulatorPion;
 IdentObj identyfikatorPion;
 IdentObj identyfikatorPoziom;
-double *poziom;			//obrót w poziomie
-double *uPoziom;
-double *pion;			//obrót dooko³a kija
-double *uPion;
+float *poziom;			//obrót w poziomie
+float *uPoziom;
+float *pion;			//obrót dooko³a kija
+float *uPion;
 
 /*Prototypes of internal functions*/
 void ML_ShowGoodbyeMsg();
@@ -81,8 +82,7 @@ unsigned short int ML_CheckSwitch() {
 Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput,
 		volatile short* _ReceiveToGo) {
 	Enc_Measurement EncInput_Buffer;
-	while (Enc_Are_Both_Enc_Fresh(_EncInput) == FALSE)
-		;
+	while (Enc_Are_Both_Enc_Fresh(_EncInput) == FALSE);
 	Enc_Unfresh_All(_EncInput);
 	Enc_Compute_Values(_EncInput);
 	EncInput_Buffer = (*_EncInput);
@@ -98,9 +98,9 @@ void PrepareGPC() {
 	modelPoziom.nA = 3;
 	modelPoziom.nB = 3;
 	modelPoziom.k = 1;
-	modelPoziom.A = (double*) malloc(modelPoziom.nA * sizeof(double));
+	modelPoziom.A = (float*) alokuj(modelPoziom.nA * sizeof(float));
 
-	modelPoziom.B = (double*) malloc((modelPoziom.nB + modelPoziom.k) * sizeof(double));
+	modelPoziom.B = (float*) alokuj((modelPoziom.nB + modelPoziom.k) * sizeof(float));
 
 	modelPoziom.A[0] = -2.747;
 	modelPoziom.A[1] = 2.514;
@@ -113,9 +113,9 @@ void PrepareGPC() {
 	modelPion.nA = 3;
 	modelPion.nB = 3;
 	modelPion.k = 1;
-	modelPion.A = (double*) malloc(modelPion.nA * sizeof(double));
-	modelPion.B = (double*) malloc(
-			(modelPion.nB + modelPion.k) * sizeof(double));
+	modelPion.A = (float*) alokuj(modelPion.nA * sizeof(float));
+	modelPion.B = (float*) alokuj(
+			(modelPion.nB + modelPion.k) * sizeof(float));
 
 	modelPion.A[0] = -2.573;
 	modelPion.A[1] = 2.353;
@@ -125,11 +125,11 @@ void PrepareGPC() {
 	modelPion.B[1] = 0.004851;
 	modelPion.B[2] = -0.001411;
 
-	GPC_Constructor(&regulatorPion, &modelPion, 3, 2, 0.3, 0.5);
-	GPC_Constructor(&regulatorPoziom, &modelPoziom, 3, 2, 0.3, 0.5);
+	GPC_Constructor(&regulatorPion, &modelPion, 60, 50, 0.3, 0.5);
+	GPC_Constructor(&regulatorPoziom, &modelPoziom, 60, 50, 0.3, 0.5);
 
-	pion = (double*) malloc(modelPion.nA * sizeof(double));
-	poziom = (double*) malloc(modelPoziom.nA * sizeof(double));
+	pion = (float*) alokuj(modelPion.nA * sizeof(float));
+	poziom = (float*) alokuj(modelPoziom.nA * sizeof(float));
 
 	for (k = 0; k < modelPion.nA; ++k) {
 		pion[k] = 0;
@@ -137,14 +137,11 @@ void PrepareGPC() {
 	for (k = 0; k < modelPoziom.nA; ++k) {
 		poziom[k] = 0;
 	}
-	double *uPion = (double*) malloc((modelPion.nB + modelPion.k) * sizeof(double));
+	float *uPion = (float*) alokuj((modelPion.nB + modelPion.k) * sizeof(float));
 
-	double *uPoziom = (double*) malloc((modelPoziom.nB + modelPoziom.k) * sizeof(double));
+	float *uPoziom = (float*) alokuj((modelPoziom.nB + modelPoziom.k) * sizeof(float));
 
-	//Sprawdzanie, czy nie zabrak³o nam pamiêci
-	if(uPoziom == 0){
-		DSK6713_LED_on(0);
-	}
+
 	for (k = 0; k < modelPion.nB + modelPion.k; ++k) {
 		uPion[k] = 0;
 	}
@@ -155,11 +152,16 @@ void PrepareGPC() {
 	//IdentObj Identyfikator;
 	IdentObj_Constructor(&identyfikatorPion,&modelPion,0.3,1000);
 	IdentObj_Constructor(&identyfikatorPoziom,&modelPoziom,0.3,1000);
+	//Sprawdzanie, czy nie zabrak³o nam pamiêci
+		if(identyfikatorPoziom.memU == 0){
+			DSK6713_LED_on(0);
+		}
 
 }
 DAC_Values Enc_PrepareFreshOutput(Enc_Measurement _EncInput,volatile short* _TransmitToGo, float* k) {
 	int sterowanie;
 	int sterowanie2;
+	static int iteracja = 0;
 	int uchyb2 ,uchyb;
 	if(use_Gpc==1){
 		///GPC1 - wirnik powoduj¹cy ruch w pionie
@@ -187,7 +189,10 @@ DAC_Values Enc_PrepareFreshOutput(Enc_Measurement _EncInput,volatile short* _Tra
 		moveTableLeft(uPoziom,modelPoziom.nB+modelPoziom.k);
 	}else{
 		pomiar = (int)_EncInput.Enc1.Value;
-
+		iteracja = iteracja+1;
+		if(iteracja%200 ==0){
+			Wzad_pion = 100+ (( (float)rand() )/ (float)RAND_MAX)*40 - 20;
+		}
 		//	pomiar = -10;
 		if(pomiar>10000){
 			pomiar = pomiar-65535;
@@ -231,7 +236,7 @@ DAC_Values Enc_PrepareFreshOutput(Enc_Measurement _EncInput,volatile short* _Tra
 	//
 	DAC_Values FreshOutput = DAC_Fill_Values_With_Zeros();
 	// Zerowanie do testów
-	//sterowanie2 = 0;
+//	sterowanie2 = 0;
 	FreshOutput.Channel_A0 = sterowanie + 0x7FF;
 	FreshOutput.Channel_A1 = sterowanie2 + 0x7FF;
 

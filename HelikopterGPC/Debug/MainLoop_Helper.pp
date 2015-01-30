@@ -33,6 +33,9 @@ MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/mathf.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/unaccess.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/mathl.h
 MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/unaccess.h
+MainLoop_Helper.obj: ../alokacja.h
+MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdlib.h
+MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h
 MainLoop_Helper.obj: ../matrixvectorop.h
 MainLoop_Helper.obj: ../lumatrixinv.h
 MainLoop_Helper.obj: ../gpcregler.h
@@ -40,7 +43,6 @@ MainLoop_Helper.obj: C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h
 MainLoop_Helper.obj: ../ident.h
 MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713.h
 MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h
-MainLoop_Helper.obj: C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h
 MainLoop_Helper.obj: ../McBSP_Utility.h
 MainLoop_Helper.obj: ../IRQ_Utility.h
 MainLoop_Helper.obj: ../CPLD.h
@@ -78,6 +80,9 @@ C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/mathf.h:
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/unaccess.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/mathl.h: 
 C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/unaccess.h: 
+../alokacja.h: 
+C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdlib.h: 
+C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h: 
 ../matrixvectorop.h: 
 ../lumatrixinv.h: 
 ../gpcregler.h: 
@@ -85,7 +90,6 @@ C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include/stdio.h:
 ../ident.h: 
 C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713.h: 
 C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_dip.h: 
-C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include/dsk6713_led.h: 
 ../McBSP_Utility.h: 
 ../IRQ_Utility.h: 
 ../CPLD.h: 

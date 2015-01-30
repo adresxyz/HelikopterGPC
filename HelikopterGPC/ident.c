@@ -3,14 +3,13 @@
 #include "matrixvectorop.h"
 #include <math.h>
 #include <stdlib.h>
+#include "alokacja.h"
 
 
 
 
 
-
-
-void IdentObj_Constructor(IdentObj* obj,ARX* model,double Beta,double Lambda)
+void IdentObj_Constructor(IdentObj* obj,ARX* model,float Beta,float Lambda)
 {
     obj->model = model;
     obj->Beta = Beta;
@@ -19,11 +18,11 @@ void IdentObj_Constructor(IdentObj* obj,ARX* model,double Beta,double Lambda)
     obj->Alpha = 0;
     obj->Sigma =1000;
     obj->AB = model->nA + model->nB;
-    obj->Theta = (double*) malloc((model->nA+model->nB)*sizeof(double));
-    obj->Phi = (double*) malloc((model->nA+model->nB)*sizeof(double));
-    obj->VectK= (double*) malloc((model->nA+model->nB)*sizeof(double));
-    obj->memY= (double*) malloc((model->nA+model->nB+1)*sizeof(double));
-    obj->memU= (double*) malloc((model->nA+model->nB+1)*sizeof(double));
+    obj->Theta = (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    obj->Phi = (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    obj->VectK= (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    obj->memY= (float*) alokuj((model->nA+model->nB+1)*sizeof(float));
+    obj->memU= (float*) alokuj((model->nA+model->nB+1)*sizeof(float));
     obj->P = getMatrixEyeptr(model->nA+model->nB,model->nA+model->nB,Lambda);
     obj->KFiT = getMatrixptr(model->nA + model->nB,model->nA + model->nB,0.0);
     obj->KFiTP = getMatrixptr(model->nA + model->nB,model->nA + model->nB,0.0);
@@ -44,11 +43,11 @@ void IdentObj_Constructor(IdentObj* obj,ARX* model,double Beta,double Lambda)
 
 void IdentObj_Destructor(IdentObj *obj)
 {
-    //    obj->Theta = (double*) malloc((model->nA+model->nB)*sizeof(double));
-    //    obj->Phi = (double*) malloc((model->nA+model->nB)*sizeof(double));
-    //    obj->VectK= (double*) malloc((model->nA+model->nB)*sizeof(double));
-    //    obj->memY= (double*) malloc((model->nA+model->nB)*sizeof(double));
-    //    obj->memU= (double*) malloc((model->nA+model->nB)*sizeof(double));
+    //    obj->Theta = (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    //    obj->Phi = (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    //    obj->VectK= (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    //    obj->memY= (float*) alokuj((model->nA+model->nB)*sizeof(float));
+    //    obj->memU= (float*) alokuj((model->nA+model->nB)*sizeof(float));
     //    obj->P = getMatrixEyeptr(model->nA+model->nB,model->nA+model->nB,Lambda);
     //    obj->KFiT = getMatrixptr(model->nA + model->nB,model->nA + model->nB,0.0);
     //    obj->KFiTP = getMatrixptr(model->nA + model->nB,model->nA + model->nB,0.0);
@@ -63,7 +62,7 @@ void IdentObj_Destructor(IdentObj *obj)
     freeMatrix(obj->P);
 }
 
-void CalculateIdent(IdentObj *idobj,double u,double y)
+void CalculateIdent(IdentObj *idobj,float u,float y)
 {
     int i,j,k;
 
@@ -76,7 +75,7 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
         idobj->Phi[k] = idobj->memU[k+idobj->model->k];
     }
 
-    double Epsilon = y;
+    float Epsilon = y;
     for (i = 0; i < idobj->AB; ++i) {
         Epsilon-= idobj->Theta[i] * idobj->Phi[i];
     }
@@ -90,9 +89,9 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
 
     /* Mult. of Phi^T * P * Phi*/
 
-    double temp = 1.0;
+    float temp = 1.0;
     for ( i = 0; i < idobj->AB; ++i) {
-        double Accum =0.0;
+        float Accum =0.0;
         for ( j = 0; j < idobj->AB; ++j) {
             Accum+= idobj->Phi[j] * idobj->P->mat[i][j];
         }
@@ -132,7 +131,7 @@ void CalculateIdent(IdentObj *idobj,double u,double y)
     }
 
 
-    double Trace =0;
+    float Trace =0;
     for (k = 0; k < idobj->AB; ++k) {
         Trace += idobj->P->mat[k][k];
     }

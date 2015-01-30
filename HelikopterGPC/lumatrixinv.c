@@ -3,10 +3,10 @@
 #include "stdio.h"
 
 
-void inverse(double **mat,double** y,double *col,int* indx, int dim,double* vv)
+void inverse(float **mat,float** y,float *col,int* indx, int dim,float* vv)
 {
     int i, j;
-    double  d;
+    float  d;
 
 
     for ( i = 0; i < dim; ++i) {
@@ -30,10 +30,10 @@ void inverse(double **mat,double** y,double *col,int* indx, int dim,double* vv)
 }
 
 
-void ludcmp(double **a, int n, int *indx, double *d,double *vv)
+void ludcmp(float **a, int n, int *indx, float *d,float *vv)
 {
     int i, imax, j, k;
-    double   big, dum, sum, temp;
+    float   big, dum, sum, temp;
 
     *d = 1.0;
     for (i = 0; i<n; i++)
@@ -47,9 +47,8 @@ void ludcmp(double **a, int n, int *indx, double *d,double *vv)
         {
             fprintf(stderr, "Singular Matrix in Routine LUDCMP\n");
             for (j = 0; j<n; j++) printf(" %f ", a[i][j]); printf("/n");
+            DSK6713_LED_on(1);
             return;
-            ///Tutaj trzeba cos zrobiæ, bo nie ma funkcji exit(). Poza tym ona nie ma sensu
-            exit(1);
         }
         vv[i] = 1.0 / big;
     }
@@ -96,10 +95,10 @@ void ludcmp(double **a, int n, int *indx, double *d,double *vv)
 }
 
 
-void lubksb(double **a, int n, int *indx, double *b)
+void lubksb(float **a, int n, int *indx, float *b)
 {
     int i, ip, j, ii = -1;
-    double   sum;
+    float   sum;
 
     for (i = 0; i<n; i++)
     {

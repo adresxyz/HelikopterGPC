@@ -1,7 +1,7 @@
 #include "matrixvectorop.h"
 #include "gpcregler.h"
 #include "lumatrixinv.h"
-
+#include "alokacja.h"
 #include<stdlib.h>
 #include<stdio.h>
 
@@ -10,26 +10,26 @@
 
 void GPC_Constructor(GPC* Regulator,ARX* model,
                      int H,int L,
-                     double Alpha,double Rho)
+                     float Alpha,float Rho)
 {
-    Regulator->w0 = (double*) malloc(H *sizeof(double));
-    Regulator->y0 = (double*) malloc(H *sizeof(double));
-    Regulator->qT = (double*) malloc(H *sizeof(double));
-    Regulator->h = (double*) malloc(H *sizeof(double));
-    Regulator->wU = (double*) malloc((model->nB + model->k)  *sizeof(double));
-    Regulator->wY = (double*) malloc(model->nA *sizeof(double));
-    Regulator->h = (double*) malloc(H*sizeof(double));
+    Regulator->w0 = (float*) alokuj(H *sizeof(float));
+    Regulator->y0 = (float*) alokuj(H *sizeof(float));
+    Regulator->qT = (float*) alokuj(H *sizeof(float));
+    Regulator->h = (float*) alokuj(H *sizeof(float));
+    Regulator->wU = (float*) alokuj((model->nB + model->k)  *sizeof(float));
+    Regulator->wY = (float*) alokuj(model->nA *sizeof(float));
+    Regulator->h = (float*) alokuj(H*sizeof(float));
     Regulator->Q = getMatrixptr(H,L,0.0);
     Regulator->QToInv = getMatrixptr(L,L,0.0);
 
-    Regulator->InvHelper = (double **)malloc(L * sizeof(double*));
+    Regulator->InvHelper = (float **)alokuj(L * sizeof(float*));
     int i;
 
-    for( i = 0; i < L; i++) Regulator->InvHelper[i] = (double *)malloc(L * sizeof(double));
+    for( i = 0; i < L; i++) Regulator->InvHelper[i] = (float *)alokuj(L * sizeof(float));
 
-    Regulator->indx = (int *)malloc((unsigned)(L*sizeof(int)));
-    Regulator->col = (double *)malloc((unsigned)(L*sizeof(int)));
-    Regulator->vv =  (double*)malloc((unsigned)(L*sizeof(double)));
+    Regulator->indx = (int *)alokuj((unsigned)(L*sizeof(int)));
+    Regulator->col = (float *)alokuj((unsigned)(L*sizeof(int)));
+    Regulator->vv =  (float*)alokuj((unsigned)(L*sizeof(float)));
 
     Regulator->H = H;
     Regulator->L = L;
@@ -65,7 +65,7 @@ void GPC_Destructor(GPC* Regulator)
 /// \param w - obecne wymuszenie
 /// \return
 ///
-double CalculateGPC(GPC* Reg,ARX *model, double*y, double *u, double w)
+float CalculateGPC(GPC* Reg,ARX *model, float*y, float *u, float w)
 {
     CalcRefModelOutput(Reg,y[model->nA-1],w);
     CalcClearArx(Reg,model);
@@ -73,7 +73,7 @@ double CalculateGPC(GPC* Reg,ARX *model, double*y, double *u, double w)
     CalcQT(Reg);
     CalcArixOutput(Reg,model,y,u);
     // Calculating u
-    double du = 0;
+    float du = 0;
     int i;
     for ( i = 0; i < Reg->H; ++i) {
         du+= Reg->qT[i] * (Reg->w0[i] - Reg->y0[i]);
@@ -138,7 +138,7 @@ void FillQ(GPC* reg)
  * @param w
  * @param W0
  */
-void CalcRefModelOutput(GPC* reg,double y,double w)
+void CalcRefModelOutput(GPC* reg,float y,float w)
 {   int i;
     reg->w0[0] = (1.0 - reg->Alpha)*w + reg->Alpha *y;
     for ( i = 1; i < reg->H; ++i) {
@@ -171,11 +171,11 @@ void CalcClearArx(GPC* reg,ARX* model)
 }
 
 
-void CalcArixOutput(GPC* reg,ARX* model,double* y,double* u)
+void CalcArixOutput(GPC* reg,ARX* model,float* y,float* u)
 {
     int i,j;
-    double ynext;
-    double ui=u[model->nB+model->k-1];
+    float ynext;
+    float ui=u[model->nB+model->k-1];
 
 
     for(j=0;j<model->nA;j++) reg->wY[j]=y[j];
@@ -211,10 +211,10 @@ void CalcArixOutput(GPC* reg,ARX* model,double* y,double* u)
 
 
 
-double CalcArxOutput(ARX* model,double* y,double* u)
+float CalcArxOutput(ARX* model,float* y,float* u)
 {
     int j;
-    double ynext;
+    float ynext;
 
     ynext=0.0;
 

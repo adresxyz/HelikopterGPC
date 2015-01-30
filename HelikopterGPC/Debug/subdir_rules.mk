@@ -59,6 +59,13 @@ McBSP_Utility.obj: ../McBSP_Utility.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+alokacja.obj: ../alokacja.c $(GEN_OPTS) $(GEN_HDRS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C6000 Compiler'
+	"c:/ti/ccsv6/tools/compiler/c6000_7.4.11/bin/cl6x" --abi=coffabi -O3 -ms3 -g --include_path="C:/ti/ccsv5/tools/compiler/c6000_7.4.4/include" --include_path="C:/ti/xdais_7_21_01_07/packages/ti/xdais" --include_path="C:/Program Files/C6xCSL/include" --include_path="C:/ti/ccsv6/tools/compiler/c6000_7.4.8/dsk6713/include" --define="CHIP_6713" --quiet --display_error_number --diag_wrap=off --preproc_with_compile --preproc_dependency="alokacja.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 enkoder.obj: ../enkoder.c $(GEN_OPTS) $(GEN_HDRS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C6000 Compiler'

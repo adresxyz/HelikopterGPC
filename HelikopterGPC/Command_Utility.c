@@ -72,12 +72,14 @@ void CommandEngine(Commands _Command, Uint8* _DataToSend, Uint8* _WordsToSend,Ui
 	{
 
 		(*_WordsToSend) = _16BIT_LEN;
-		Copy16Bit(_DAC_Values.Channel_A0, _DataToSend);
+//		Copy16Bit(_DAC_Values.Channel_A0, _DataToSend);
+		Copy16Bit(Wzad_pion,_DataToSend);
 	}
 	else if(_Command == GetDAC_1)
 		{
 			(*_WordsToSend) = _16BIT_LEN;
-			Copy16Bit(_DAC_Values.Channel_A1, _DataToSend);
+//			Copy16Bit(_DAC_Values.Channel_A1, _DataToSend);
+			Copy16Bit(Wzad_poziom,_DataToSend);
 
 		}
 	else if(_Command == SetEnc_0 || _Command == SetEnc_1  || _Command == SetWzad_1)

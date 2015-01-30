@@ -7,31 +7,31 @@
 typedef struct{
 int L;
 int H;
-double Rho;
-double Alpha;
-double *w0;
-double *y0;
-double *qT;
-double *h;
-double *wU;
-double *wY;
+float Rho;
+float Alpha;
+float *w0;
+float *y0;
+float *qT;
+float *h;
+float *wU;
+float *wY;
 Matrix* Q;
 Matrix* QToInv;
-double** InvHelper;
+float** InvHelper;
 int *indx;
-double *col;
-double *vv;
+float *col;
+float *vv;
 ARX* model;
 
 }GPC;
 
 void GPC_Constructor(GPC* Regulator,ARX* model,
                      int H,int L,
-                     double Alpha,double Rho);
+                     float Alpha,float Rho);
 void GPC_Destructor(GPC* Regulator);
 
 
-void CalcRefModelOutput(GPC* reg, double y, double w);
+void CalcRefModelOutput(GPC* reg, float y, float w);
 
 
 void CalcClearArx(GPC* reg,ARX* model);
@@ -43,12 +43,12 @@ void FillQ(GPC* reg);
 void CalcQT(GPC* reg);
 
 
-void CalcArixOutput(GPC* reg,ARX* model,double* y,double* u);
+void CalcArixOutput(GPC* reg,ARX* model,float* y,float* u);
 
-double CalculateGPC(GPC* Reg, ARX *model, double*y, double *u, double w);
+float CalculateGPC(GPC* Reg, ARX *model, float*y, float *u, float w);
 
-double CalcArxOutput(ARX* model,double* y,double* u);
-void pushStop(double New,double* A,int size);
-void pushStart(double New,double* A,int size);
+float CalcArxOutput(ARX* model,float* y,float* u);
+void pushStop(float New,float* A,int size);
+void pushStart(float New,float* A,int size);
 #endif // GPCREGLER
 

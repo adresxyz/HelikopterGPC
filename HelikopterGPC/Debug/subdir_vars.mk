@@ -18,6 +18,7 @@ C_SRCS += \
 ../MainLoop_Helper.c \
 ../MatrixVectorOp.c \
 ../McBSP_Utility.c \
+../alokacja.c \
 ../enkoder.c \
 ../gpcregler.c \
 ../ident.c \
@@ -34,6 +35,7 @@ OBJS += \
 ./MainLoop_Helper.obj \
 ./MatrixVectorOp.obj \
 ./McBSP_Utility.obj \
+./alokacja.obj \
 ./enkoder.obj \
 ./gpcregler.obj \
 ./ident.obj \
@@ -54,6 +56,7 @@ C_DEPS += \
 ./MainLoop_Helper.pp \
 ./MatrixVectorOp.pp \
 ./McBSP_Utility.pp \
+./alokacja.pp \
 ./enkoder.pp \
 ./gpcregler.pp \
 ./ident.pp \
@@ -70,6 +73,7 @@ C_DEPS__QUOTED += \
 "MainLoop_Helper.pp" \
 "MatrixVectorOp.pp" \
 "McBSP_Utility.pp" \
+"alokacja.pp" \
 "enkoder.pp" \
 "gpcregler.pp" \
 "ident.pp" \
@@ -86,6 +90,7 @@ OBJS__QUOTED += \
 "MainLoop_Helper.obj" \
 "MatrixVectorOp.obj" \
 "McBSP_Utility.obj" \
+"alokacja.obj" \
 "enkoder.obj" \
 "gpcregler.obj" \
 "ident.obj" \
@@ -106,6 +111,7 @@ C_SRCS__QUOTED += \
 "../MainLoop_Helper.c" \
 "../MatrixVectorOp.c" \
 "../McBSP_Utility.c" \
+"../alokacja.c" \
 "../enkoder.c" \
 "../gpcregler.c" \
 "../ident.c" \
