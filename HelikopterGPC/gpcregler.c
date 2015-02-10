@@ -12,10 +12,12 @@ void GPC_Constructor(GPC* Regulator,ARX* model,
                      int H,int L,
                      float Alpha,float Rho)
 {
+    //Regulator->u = (float*) alokuj((model->nB + model->k)  *sizeof(float));
+    //Regulator->y = (float*) alokuj(H *sizeof(float));
     Regulator->w0 = (float*) alokuj(H *sizeof(float));
     Regulator->y0 = (float*) alokuj(H *sizeof(float));
     Regulator->qT = (float*) alokuj(H *sizeof(float));
-    Regulator->h = (float*) alokuj(H *sizeof(float));
+//    Regulator->h = (float*) alokuj(H *sizeof(float));
     Regulator->wU = (float*) alokuj((model->nB + model->k)  *sizeof(float));
     Regulator->wY = (float*) alokuj(model->nA *sizeof(float));
     Regulator->h = (float*) alokuj(H*sizeof(float));
@@ -61,24 +63,61 @@ void GPC_Destructor(GPC* Regulator)
 ///
 /// \brief CalculateGPC
 /// \param model - model
-/// \param yk - obecne wyjÅ›cie
+/// \param yk - obecne wyjœcie
 /// \param w - obecne wymuszenie
 /// \return
 ///
-float CalculateGPC(GPC* Reg,ARX *model, float*y, float *u, float w)
+float CalculateGPC(GPC* Reg, float CurrY, float w)
 {
+    /// Przypisanie wskaŸników
+    ARX* model = Reg->model;
+    float * y = Reg->y;
+    float * u = Reg->u;
+
+    /// Dodanie obecnego wyjœcia do kolejki
+    //moveTableLeft(Reg->y,model->nA);
+    //Reg->y[model->nA-1]=CurrY;
+
+    /// U¿ycie modelu odniesienia do wyliczenia w³aœciwych wartoœci zadanych.
+    /// (Chodzi o u¿ycie inercji)
     CalcRefModelOutput(Reg,y[model->nA-1],w);
+
+
+    /// Wyliczenie odpowiedzi skokowej modelu z pominiêciem opóŸnienia.
     CalcClearArx(Reg,model);
+
+    /// Wype³nienie macierzy Q wartoœciami z wektora h - liczonych w poprzenim kroku
+    /// tzn. 'CalcClearArx'
     FillQ(Reg);
+
+    /// Wyliczenie wektora q^T - tutaj nastêpuje odwracanie macierzy
     CalcQT(Reg);
+
+    /// Wyliczenie przysz³ych wartoœci wyjœcia przy zachowaniu obecnego sterowania
     CalcArixOutput(Reg,model,y,u);
+
     // Calculating u
     float du = 0;
     int i;
     for ( i = 0; i < Reg->H; ++i) {
         du+= Reg->qT[i] * (Reg->w0[i] - Reg->y0[i]);
     }
-    return du +u[model->nB+model->k-1];
+
+
+    /// Wyliczenie u i sprawdzenei MIN, MAX
+    float CurrentU = du +u[model->nB+model->k-1];
+
+
+    //CurrentU = 0.7 * CurrentU + 0.3 * u[model->nB+model->k-1];
+
+    CurrentU = (CurrentU>Reg->ValMax)?Reg->ValMax:CurrentU;
+    CurrentU = (CurrentU<Reg->ValMin)?Reg->ValMin:CurrentU;
+
+    /// Dopisanie sterowania do kolejki sterowania
+//    moveTableLeft(u,model->nB+model->k);
+//    u[model->nB+model->k-1]=CurrentU;
+
+    return CurrentU;
 }
 
 void CalcQT(GPC* reg)

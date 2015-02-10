@@ -9,12 +9,16 @@ int L;
 int H;
 float Rho;
 float Alpha;
+float ValMax;
+float ValMin;
 float *w0;
 float *y0;
 float *qT;
 float *h;
 float *wU;
 float *wY;
+float *y;
+float *u;
 Matrix* Q;
 Matrix* QToInv;
 float** InvHelper;
@@ -45,7 +49,7 @@ void CalcQT(GPC* reg);
 
 void CalcArixOutput(GPC* reg,ARX* model,float* y,float* u);
 
-float CalculateGPC(GPC* Reg, ARX *model, float*y, float *u, float w);
+float CalculateGPC(GPC* Reg, float CurrY, float w);
 
 float CalcArxOutput(ARX* model,float* y,float* u);
 void pushStop(float New,float* A,int size);

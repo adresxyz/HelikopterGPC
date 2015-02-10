@@ -1,7 +1,7 @@
 #include "lumatrixinv.h"
 #include "math.h"
 #include "stdio.h"
-
+//#include "McBSP_Utility.h"
 
 void inverse(float **mat,float** y,float *col,int* indx, int dim,float* vv)
 {
@@ -45,9 +45,13 @@ void ludcmp(float **a, int n, int *indx, float *d,float *vv)
         }
         if (big == 0.0)
         {
-            fprintf(stderr, "Singular Matrix in Routine LUDCMP\n");
-            for (j = 0; j<n; j++) printf(" %f ", a[i][j]); printf("/n");
-            DSK6713_LED_on(1);
+        	while(1){
+        		fprintf(stderr, "Singular Matrix in Routine LUDCMP\n");
+        		for (j = 0; j<n; j++) printf(" %f ", a[i][j]); printf("/n");
+        	}
+//    		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC0,0x7FF));
+//    		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC3, 0x7FF));
+//            DSK6713_LED_on(1);
             return;
         }
         vv[i] = 1.0 / big;

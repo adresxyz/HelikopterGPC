@@ -19,6 +19,8 @@ float*Phi;
 float*VectK;
 float*memY;
 float*memU;
+float lastU;
+float lastY;
 
 }IdentObj;
 
@@ -26,7 +28,7 @@ float*memU;
 
 void IdentObj_Constructor(IdentObj* obj,ARX* model,float Beta,float Lambda);
 void IdentObj_Destructor(IdentObj* obj);
-void CalculateIdent(IdentObj *idobj, float u, float y);
+void CalculateIdent(IdentObj *idobj, float u, float y,float w);
 
 #endif // IDENT
 

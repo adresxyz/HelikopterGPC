@@ -35,24 +35,41 @@ int pomiar;
 //int wartoscZadana=-150;
 float suma = 0;
 
-float kC2 = 0.001;
+float kC2 = 0.003;
 float kPID2 = 0.7;
 int pomiar2;
+
+//float kC2 = 0.004;
+//float kPID2 = 0.8;
+//int pomiar2;
+
+
 //int wartoscZadana2=1000;
 float suma2 = 0;
-int use_Gpc = 0;
+int use_GpcPion = 0;
+int use_GpcPoziom = 0;
+
+
 // Zmienne globalne GPC
 ARX modelPoziom;
 ARX modelPion;
 
+
 GPC regulatorPoziom;
 GPC regulatorPion;
+
 IdentObj identyfikatorPion;
 IdentObj identyfikatorPoziom;
+
 float *poziom;			//obrót w poziomie
 float *uPoziom;
 float *pion;			//obrót dooko³a kija
 float *uPion;
+
+float Apion_init[15] = { -0.967103, -0.345464, 0.016679, 0.101649, 0.089887, 0.285890,
+							-0.025965, 0.042773, -0.055164, -0.076209,0.0,0.0,0.0,0.0,0.0};
+float Bpion_init[15] = { 0.000115, 0.000051, -0.000883, -0.001712, -0.001780, -0.001665,
+							-0.001342, -0.000718, -0.000269, -0.000300,0.0,0.0,0.0,0.0,0.0};
 
 /*Prototypes of internal functions*/
 void ML_ShowGoodbyeMsg();
@@ -92,15 +109,23 @@ Enc_Measurement Enc_WaitForFreshInput(volatile Enc_Measurement* _EncInput,
 
 
 void PrepareGPC() {
-	int k;
+	int k,i;
 
 	/* Parametry modelu*/
-	modelPoziom.nA = 3;
-	modelPoziom.nB = 3;
+	modelPoziom.nA = 10;
+	modelPoziom.nB = 10;
 	modelPoziom.k = 1;
 	modelPoziom.A = (float*) alokuj(modelPoziom.nA * sizeof(float));
 
 	modelPoziom.B = (float*) alokuj((modelPoziom.nB + modelPoziom.k) * sizeof(float));
+
+	for(i = 0; i<modelPoziom.nA;i++){
+		modelPoziom.A[i]=0;
+	}
+	for(i = 0; i<modelPoziom.nB;i++){
+		modelPoziom.B[i]=0;
+	}
+
 
 	modelPoziom.A[0] = -2.747;
 	modelPoziom.A[1] = 2.514;
@@ -110,23 +135,34 @@ void PrepareGPC() {
 	modelPoziom.B[1] = 0.001799;
 	modelPoziom.B[2] = 0.00005318;
 
-	modelPion.nA = 3;
-	modelPion.nB = 3;
+	modelPion.nA = 15;
+	modelPion.nB = 15;
 	modelPion.k = 1;
 	modelPion.A = (float*) alokuj(modelPion.nA * sizeof(float));
-	modelPion.B = (float*) alokuj(
-			(modelPion.nB + modelPion.k) * sizeof(float));
+	modelPion.B = (float*) alokuj((modelPion.nB + modelPion.k) * sizeof(float));
 
-	modelPion.A[0] = -2.573;
-	modelPion.A[1] = 2.353;
-	modelPion.A[2] = -0.7641;
+	for(i = 0; i<modelPion.nA;i++){
+		modelPion.A[i]=Apion_init[i];
+	}
+	for(i = 0; i<modelPion.nB;i++){
+		modelPion.B[i]=Bpion_init[i];
+	}
+//	for(i = 0; i<modelPion.nA;i++){
+//			modelPion.A[i]=0;
+//	}
+//	for(i = 0; i<modelPion.nB;i++){
+//			modelPion.B[i]=0;
+//	}
 
-	modelPion.B[0] = 0.01329;
-	modelPion.B[1] = 0.004851;
-	modelPion.B[2] = -0.001411;
 
-	GPC_Constructor(&regulatorPion, &modelPion, 60, 50, 0.3, 0.5);
-	GPC_Constructor(&regulatorPoziom, &modelPoziom, 60, 50, 0.3, 0.5);
+
+	GPC_Constructor(&regulatorPion, &modelPion, 120, 50, 0.0, 0.05);
+	regulatorPion.ValMax=2047.0;
+	regulatorPion.ValMin=-2047.0;
+
+//	GPC_Constructor(&regulatorPoziom, &modelPoziom, 100, 50, 0, 0.5);
+//	regulatorPoziom.ValMax=2000.0;
+//	regulatorPoziom.ValMin=-2000.0;
 
 	pion = (float*) alokuj(modelPion.nA * sizeof(float));
 	poziom = (float*) alokuj(modelPoziom.nA * sizeof(float));
@@ -137,9 +173,9 @@ void PrepareGPC() {
 	for (k = 0; k < modelPoziom.nA; ++k) {
 		poziom[k] = 0;
 	}
-	float *uPion = (float*) alokuj((modelPion.nB + modelPion.k) * sizeof(float));
+	uPion = (float*) alokuj((modelPion.nB + modelPion.k) * sizeof(float));
 
-	float *uPoziom = (float*) alokuj((modelPoziom.nB + modelPoziom.k) * sizeof(float));
+	uPoziom = (float*) alokuj((modelPoziom.nB + modelPoziom.k) * sizeof(float));
 
 
 	for (k = 0; k < modelPion.nB + modelPion.k; ++k) {
@@ -150,98 +186,109 @@ void PrepareGPC() {
 	}
 
 	//IdentObj Identyfikator;
-	IdentObj_Constructor(&identyfikatorPion,&modelPion,0.3,1000);
-	IdentObj_Constructor(&identyfikatorPoziom,&modelPoziom,0.3,1000);
-	//Sprawdzanie, czy nie zabrak³o nam pamiêci
-		if(identyfikatorPoziom.memU == 0){
-			DSK6713_LED_on(0);
-		}
+	IdentObj_Constructor(&identyfikatorPion,&modelPion,0.5,1000);
+	//IdentObj_Constructor(&identyfikatorPoziom,&modelPoziom,0.3,1000);
 
 }
 DAC_Values Enc_PrepareFreshOutput(Enc_Measurement _EncInput,volatile short* _TransmitToGo, float* k) {
 	int sterowanie;
 	int sterowanie2;
 	static int iteracja = 0;
-	int uchyb2 ,uchyb;
-	if(use_Gpc==1){
-		///GPC1 - wirnik powoduj¹cy ruch w pionie
-		pomiar = (int) _EncInput.Enc1.Value;
-
-		//	pomiar = -10;
-		if (pomiar > 10000) {
-			pomiar = pomiar - 65535;
-		}
-		moveTableLeft(pion,modelPion.nA);
-		pion[modelPion.nA-1]=pomiar;
-		sterowanie = 0;//CalculateGPC(&regulatorPion,&modelPion,pion,uPion,Wzad_pion);
-		moveTableLeft(uPion,modelPion.nB+modelPion.k);
+	static int czyIdentyfikowac = 0;
+	int uchyb2 ,uchyb,rozniczka;
 
 
-		///GPC2 - wirnik powoduj¹cy ruch w poziomie
-		pomiar2 = (int) _EncInput.Enc0.Value;
+	//OpóŸnione w³¹czanie identyfikacji i GPC
+	iteracja = iteracja+1;
+	if(iteracja == 1){
+		czyIdentyfikowac = 1;
+	}
+//	if(iteracja==1500){
+//		//Wzad_pion = 100+ (( (float)rand() )/ (float)RAND_MAX)*40 - 20;
+//		use_GpcPoziom=1;
+//		regulatorPoziom.y=poziom;
+//		regulatorPoziom.u=uPoziom;
+//	}
 
-		if (pomiar2 > 10000) {
-			pomiar2 = pomiar2 - 65535;
-		}
-		moveTableLeft(poziom,modelPoziom.nA);
-		poziom[modelPoziom.nA-1] = pomiar2;
-		sterowanie2 = CalculateGPC(&regulatorPoziom,&modelPoziom,poziom,uPoziom,250.0);
-		moveTableLeft(uPoziom,modelPoziom.nB+modelPoziom.k);
+	if(iteracja==1){
+		//Wzad_pion = 100+ (( (float)rand() )/ (float)RAND_MAX)*40 - 20;
+		use_GpcPion=1;
+		regulatorPion.y=pion;
+		regulatorPion.u=uPion;
+	}
+//////////////  Regulator przechy³u /////////////////////
+	//Pomiary przechy³u
+	pomiar = (int)_EncInput.Enc1.Value;
+	if(pomiar>10000){
+		pomiar = pomiar-65535;
+	}
+	//£adowanie historii
+	moveTableLeft(pion,modelPion.nA);
+	pion[modelPion.nA-1]=pomiar;
+	//Wybór regulatora
+	if(use_GpcPion==1){
+		DSK6713_LED_on(1);
+		sterowanie = CalculateGPC(&regulatorPion,pomiar,Wzad_pion);
 	}else{
-		pomiar = (int)_EncInput.Enc1.Value;
-		iteracja = iteracja+1;
-		if(iteracja%200 ==0){
-			Wzad_pion = 100+ (( (float)rand() )/ (float)RAND_MAX)*40 - 20;
-		}
-		//	pomiar = -10;
-		if(pomiar>10000){
-			pomiar = pomiar-65535;
-		}
 		uchyb = pomiar-Wzad_pion;
 		suma = suma+uchyb*kC;
-
 		sterowanie = kPID*uchyb+suma;
+	}
+	moveTableLeft(uPion,modelPion.nB+modelPion.k);
 
+//////////////  Regulator obrotu /////////////////////
+	//Pomiar obrotu
+	pomiar2 = (int) _EncInput.Enc0.Value;
+	if (pomiar2 > 10000) {
+		pomiar2 = pomiar2 - 65535;
+	}
+	moveTableLeft(poziom,modelPoziom.nA);
+	poziom[modelPoziom.nA-1] = pomiar2;
+	//Wybór regulatora
+	if(use_GpcPoziom==1){
+		///GPC2 - wirnik powoduj¹cy ruch w poziomie
+		DSK6713_LED_on(1);
+		sterowanie2  = CalculateGPC(&regulatorPoziom,pomiar2,Wzad_poziom);
+	}else{
 		///PID2 - wirnik powoduj¹cy ruch w poziomie
-		pomiar2 = (int)_EncInput.Enc0.Value;
-		//	pomiar = -10;
-		if(pomiar2>10000){
-			pomiar2 = pomiar2-65535;
-		}
-		 uchyb2 = pomiar2-Wzad_poziom;
+		uchyb2 = pomiar2-Wzad_poziom;
 		suma2 = suma2+uchyb2*kC2;
-
 		sterowanie2 = kPID2*uchyb2+suma2;
 	}
+	moveTableLeft(uPoziom,modelPoziom.nB+modelPoziom.k);
 
-
+	//Ograniczenie sterowania - antywindup
 	if (sterowanie > 0x7FF) {
 		sterowanie = 0x7FF;
-		suma = suma-uchyb*kC;	//usuñ
+		suma = suma-uchyb*kC;	//TODO usuñ
 	} else if (sterowanie < -0x7FF) {
 		sterowanie = -0x7FF;
+		suma = suma-uchyb*kC;	//TODO usuñ
 	}
 	if (sterowanie2 > 0x7FF) {
 		sterowanie2 = 0x7FF;
+		suma2 = suma2-uchyb2*kC2; //TODO usuñ
 	} else if (sterowanie2 < -0x7FF) {
 		sterowanie2 = -0x7FF;
-		suma2 = suma2-uchyb2*kC2; //usuñ
+		suma2 = suma2-uchyb2*kC2; //TODO usuñ
 	}
 
-	uPoziom[modelPoziom.nB+modelPoziom.k]=sterowanie2;
-	uPion[modelPion.nB+modelPion.k] = sterowanie;
-	CalculateIdent(&identyfikatorPion,sterowanie,pomiar);
-	CalculateIdent(&identyfikatorPoziom,sterowanie2,pomiar2);
+	//uPoziom[modelPoziom.nB+modelPoziom.k]=sterowanie2;
+	//if(iteracja )
+	uPion[modelPion.nB+modelPion.k-1] = sterowanie;
 
+	if(czyIdentyfikowac == 1){
+		CalculateIdent(&identyfikatorPion,sterowanie,pomiar,Wzad_pion);
+//		CalculateIdent(&identyfikatorPoziom,sterowanie2,pomiar2);
+	}
 	//
+
 	DAC_Values FreshOutput = DAC_Fill_Values_With_Zeros();
-	// Zerowanie do testów
-//	sterowanie2 = 0;
+
 	FreshOutput.Channel_A0 = sterowanie + 0x7FF;
 	FreshOutput.Channel_A1 = sterowanie2 + 0x7FF;
 
-	//(*_TransmitToGo) = TRUE;
-	//	EDMA_intEnable(EDMA_DAC_IRQ);
+
 	return FreshOutput;
 }
 void Enc_SendOrder(int order) {

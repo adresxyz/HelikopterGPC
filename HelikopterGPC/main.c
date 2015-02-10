@@ -26,7 +26,7 @@
 #include "timer.h"
 #include "enkoder.h"
 #include "MainLoop_Helper.h" /*Functions used in main loop of the program*/
-
+#include "ident.h"
 
 volatile int ADCCounter = 0;
 
@@ -43,7 +43,7 @@ float WzmocnienieRegulatoraP = 1;
 float WzmocnienieCalki = 1;
 float wynik[3][3];
 
-volatile short int Wzad_pion = 100;
+volatile short int Wzad_pion = -200;
 volatile short int Wzad_poziom = 150;
 volatile short int Parametry1[3];
 volatile short int Parametry2[3];
@@ -51,11 +51,14 @@ volatile short int Parametry2[3];
 
 void TimerEventHandler(int);
 
-
+extern ARX modelPion;
+extern ARX modelPoziom;
+int debugOn = 0;
 /*----------------------------------------------------------------------------*/
 
 /* --------------------------MAIN----------------------------------*/
 void main() {
+	int i;
 	DSK6713_LED_off(1);
 	Enc_Measurement EncMeasurement_Buffer;
 	EncMeasurement = Enc_Fill_With_Zeros(EncMeasurement);
@@ -64,7 +67,8 @@ void main() {
 
 	//Pozosta³a inicjalizacja - patrz ni¿ej
 	Initialize();
-
+	Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC0, 0x7ff));
+	Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC3, 0x7ff));
 	DSK6713_LED_off(0);
 	PrepareGPC();
 
@@ -77,6 +81,18 @@ void main() {
 
 		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC0, DACValues.Channel_A0));
 		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC3, DACValues.Channel_A1));
+
+		if(debugOn){
+			for(i=0;i<modelPion.nA;i++){
+				printf("i = %d,%f,%f\n",i,modelPion.A[i],modelPion.B[i]);
+			}
+//			for(i=0;i<modelPoziom.nA;i++){
+//				printf("i = %d, A = %f, B= %f\n",i,modelPoziom.A[i],modelPoziom.B[i]);
+//			}
+		}
+
+	//	Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC0, 0x7ff));
+//		Polling_Transmit(hMcBSP_DAC,DAC_Prepare_Frame(DAC_WRITE, DAC_AC3, 0x7ff));
 
 		DSK6713_LED_toggle(2);
 	}

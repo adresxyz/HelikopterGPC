@@ -37,7 +37,7 @@ void IdentObj_Constructor(IdentObj* obj,ARX* model,float Beta,float Lambda)
         obj->memY[i]=obj->memU[i] =0.0;
     }
 
-
+    obj->lastU=obj->lastY=0;
 
 }
 
@@ -62,10 +62,15 @@ void IdentObj_Destructor(IdentObj *obj)
     freeMatrix(obj->P);
 }
 
-void CalculateIdent(IdentObj *idobj,float u,float y)
+void CalculateIdent(IdentObj *idobj,float u,float y,float w)
 {
     int i,j,k;
 
+//    float u = Nu-idobj->lastU;
+//    float y = Ny;//-idobj->lastY;
+//
+//    idobj->lastU=Nu;
+//    idobj->lastY=Ny;
 
     pushStart(u,idobj->memU,idobj->AB);
 
@@ -97,9 +102,15 @@ void CalculateIdent(IdentObj *idobj,float u,float y)
         }
         temp+=Accum * idobj->Phi[i];
     }
-    //idobj->Alpha= 1 - (Epsilon * Epsilon)/(temp * idobj->Sigma);
+//    idobj->Alpha= 1 - (Epsilon * Epsilon)/(temp * idobj->Sigma);
+    //idobj->Alpha = 0.97;
+    //idobj->Alpha= 0.95;
 
-    idobj->Alpha= 0.95;
+    if( abs(w-y)>20)
+        idobj->Alpha = 0.95;
+    else
+    	 idobj->Alpha= 1 - (Epsilon * Epsilon)/(temp * idobj->Sigma);
+
     /* Computing k:VectK */
     for ( i = 0; i < idobj->AB; ++i) {
         idobj->VectK[i] =0.0;
